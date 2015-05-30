@@ -61,7 +61,7 @@ Ext.define('Sgis.map.CoreMap', {
   		         "dijit/layout/ContentPane",
   		         "dojox/uuid/generateRandomUuid"],  
   		         function() {
-		        	esri.config.defaults.io.proxyUrl = "http://" + window.location.hostname + ":8080/proxy/proxy.jsp";
+		        	esri.config.defaults.io.proxyUrl = "http://" + window.location.hostname + ":8080/sgis-war/proxy.jsp";
 		    		esri.config.defaults.io.alwaysUseProxy = true;
 		        	me.map = new esri.Map('_mapDiv_', {
 		        		isDoubleClickZoom:false,

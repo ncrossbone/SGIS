@@ -13,7 +13,7 @@ Ext.define('Sgis.view.north.NorthController', {
 	},
 	
 	requires: [ 
-	   		'Sgis.view.north.measure.MeasureWindow'
+		'Sgis.view.north.measure.MeasureWindow'
 	],
 	
 	onClickAll: function () {

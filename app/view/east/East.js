@@ -2,9 +2,11 @@ Ext.define('Sgis.view.east.East', {
 	
 	extend: 'Ext.panel.Panel',
 	
+	requires: ['Sgis.view.east.SpotPropertyGrid'],
+	
 	xtype: 'app-east',
 	
-	width: 100,
+	width: 250,
 	
 	split: true,
 
@@ -14,7 +16,9 @@ Ext.define('Sgis.view.east.East', {
 	
 	resizable: true,
 	
-	title: 'East',
+	title: 'Property',
 	
-	html: 'This is East Area'
+	items: [{
+		xtype : 'spot_property_grid'
+	}]
 });

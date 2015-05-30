@@ -3,7 +3,6 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 	extend : 'Ext.grid.Panel',
 	
 	requires : [
-		'Ext.ux.data.PagingMemoryProxy',
 		'Sgis.store.LayerDynamicStore',
 		'Sgis.view.south.LayerDynamicGridController'
 	],
@@ -127,7 +126,6 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 	},
 	
 	createDynamicStore : function(headers, dataList) {
-
 		var store = this.getStore();
 		var pageSize = this.getPageSize();
 		
@@ -135,7 +133,7 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 			var fields = [];
 
 			for(var i = 0 ; i < headers.length ; i++) {
-				fields.push(headers[i].dataIndex);	
+				fields.push(headers[i].dataIndex);
 			}
 		
 			store = Ext.create('Sgis.store.LayerDynamicStore', {
@@ -154,11 +152,84 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 	getPageSize : function() {
 		var toolbar = this.down(' toolbar');
 		var pageSize = toolbar.down('#btnCountPerPage').getText();
-		return parseInt(pageSize);		
+		return parseInt(pageSize);
 	},
 	
 	bindPagingToolbar : function(store) {
 		var pagingtoolbar = this.down(' pagingtoolbar');
 		pagingtoolbar.bindStore(store);
+	},
+	
+	getLayerDataAll : function(result) {
+		if(result) {
+			var headers = this.getLayerMetadata(result);
+			var dataList = this.getLayerData(result);
+			return [headers, dataList];
+		} else {
+			return null;
+		}
+	},
+	
+	/**
+	 * Get Layer Columns Information
+	 */
+	getLayerMetadata : function(result) {
+		var fields = result.field;
+		if(!fields) {
+			console.log('Field is null : ');
+			console.log(result);
+			return null;
+		}
+		
+		var headers = [];
+		
+		for(var i = 0 ; i < fields.length ; i++) {
+			var header = {
+				text: fields[i].fnm,
+				dataIndex: fields[i].fid,
+				hidden: (fields[i].flag === false) ? true : false
+			};
+			
+			headers.push(header);
+		}
+		
+		return headers;
+	},
+	
+	/**
+	 * Get Layer Data
+	 */
+	getLayerData : function(result) {
+		var headers = result.field;
+		if(!headers) {
+			console.log('Field is null - ');
+			console.log(result);
+			return null;
+		}
+		
+		var datum = result.datas;
+		if(!datum) {
+			console.log('Datas is null - ');
+			console.log(result);
+			return null;
+		}
+		
+		var dataList = [];
+		
+		for(var i = 0 ; i < datum.length ; i++) {
+			var data = {};
+			
+			for(var j = 0 ; j < headers.length ; j++) {
+				data[headers[j].fid] = datum[i][headers[j].fid];
+			}
+			
+			dataList.push(data);
+		}
+		
+		return dataList;
+	},
+	
+	reconfigureSearchForm : function() {
+		// TODO
 	}
 });

@@ -13,13 +13,14 @@ Ext.require(['Sgis.CommonModule']);
 * details.
 */
 Ext.define('Sgis.Application', {
+
 	extend: 'Ext.app.Application',
 
 	name: 'Sgis',
-	
-	coreMap:null,
-	browser:null,
-	
+
+	coreMap: null,
+
+	browser: null,
 
 	stores: [
 		'Sgis.store.LayerTreeStore',
@@ -30,7 +31,7 @@ Ext.define('Sgis.Application', {
 		'Sgis.store.LayerInfoStore',
 		'Sgis.store.ScaleInfoStore'
 	],
-	
+
 	views : [
 		'Sgis.view.main.Main',
 		'Sgis.view.north.North',
@@ -39,19 +40,24 @@ Ext.define('Sgis.Application', {
 		'Sgis.view.south.South',
 		'Sgis.view.center.Center'
 	],
-	
-	//manifest때문에 적어놈.
+
+	/*
+	 * manifest때문에 적어놈.
+	 */
 	eventType:[
-	    'dynamicLayerOnOff',
-	    'searchLayerOnOff',
-	    'searchBtnClick',
-	    'drawComplte',
-	    'searchComplte',
-	    'executeMode',
-	    'finishMode',
-	    'abortFinishMode',
-	    'leftTabChange', //왼쪽에 탭변경시 발생.
-	    'areaSelect' //지역을 선택시 발생.
+		'dynamicLayerOnOff',
+		'searchLayerOnOff',
+		'searchBtnClick',
+		'drawComplte',
+		'searchComplete',
+		'executeMode',
+		'finishMode',
+		'abortFinishMode',
+		'leftTabChange', 		// 왼쪽에 탭변경시 발생.
+		'areaSelect',			// 지역을 선택시 발생.
+		'spotChanged',			// 지도의 점을 선택했을 때 발생 
+		'searchParamChange',	// 검색 조건을 선택했을 때 발생 
+		'dataGridSelect'		// South 데이터 그리드 하나를 선택했을 때 발생
 	],
 
 	launch: function () {
@@ -66,6 +72,12 @@ Ext.define('Sgis.Application', {
 			region: 'west',
 			xtype : 'app-west'
 		});
+		
+		main.add({
+			region: 'east',
+			xtype : 'app-east'
+		});
+		
 		this.browserCheck();
 	},
 	

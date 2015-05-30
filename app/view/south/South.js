@@ -3,10 +3,13 @@ Ext.define('Sgis.view.south.South', {
 	extend: 'Ext.tab.Panel',
 	
 	requires: [
-		'Sgis.view.south.LayerDynamicGrid'
+		'Sgis.view.south.LayerDynamicGrid',
+		'Sgis.view.south.SouthController'
 	],
 	
 	xtype: 'app-south',
+	
+	controller: 'app-south',
 	
 	layout: 'card',
 	

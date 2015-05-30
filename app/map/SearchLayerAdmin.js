@@ -259,7 +259,7 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 						exeComplteCnt++;
 						complteData.push(resultData);
 						if(exeComplteCnt==me.layers.length){
-							Sgis.getApplication().fireEvent('searchComplte', complteData);
+							Sgis.getApplication().fireEvent('searchComplete', complteData);
 						}
 					}
 					else
@@ -280,7 +280,7 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 				    			exeComplteCnt++;
 				    			complteData.push(resultData);
 								if(exeComplteCnt==me.layers.length){
-									Sgis.getApplication().fireEvent('searchComplte', complteData);
+									Sgis.getApplication().fireEvent('searchComplete', complteData);
 								}
 				    		}
 						});
