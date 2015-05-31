@@ -14,6 +14,6 @@ Ext.define('Sgis.view.center.ContentController', {
 	},
 	
 	resizeHandler: function(obj, width, height, oldWidth, oldHeight, eOpts) {
-		this.getView().child('app-map-coreMap').mapReisze();
+		this.getView().child('app-map-coreMap').mapResize();
 	}
 });

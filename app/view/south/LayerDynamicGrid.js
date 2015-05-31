@@ -103,6 +103,52 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 		emptyMsg: '데이터가 없습니다.'
 	},
 	
+	getPageSize : function() {
+		var toolbar = this.down(' toolbar');
+		var pageSize = toolbar.down('#btnCountPerPage').getText();
+		return parseInt(pageSize);
+	},
+	
+	bindPagingToolbar : function(store) {
+		var pagingtoolbar = this.down(' pagingtoolbar');
+		pagingtoolbar.bindStore(store);
+	},
+	
+	refreshGrid : function(result) {
+		this.reconfigureSearchForm(result);
+		this.reconfigureGrid(result);
+	},
+	
+	/**
+	 * Reconfigure search form
+	 */
+	reconfigureSearchForm : function(result) {
+		// TODO
+	},
+
+	/**
+	 * Reconfigure grid
+	 */	
+	reconfigureGrid : function(result) {
+		var store = this.getStore();
+		
+		if(store == null || !store.fields) {
+			var data = this.getLayerDataAll(result);
+			if(data && data[0] && data[1]) {
+				this.reconfigureDynamicGrid(data[0], data[1]);
+			} else {
+				console.log('Result is invalid : ');
+				console.log(result);
+			}
+		} else {
+			var data = this.getLayerData(result);
+			if(data) {
+				store.getProxy().setData(data);
+				store.read();
+			}
+		}
+	},
+	
 	reconfigureDynamicGrid : function(headers, dataList) {
 		var columns = [];
 		
@@ -149,17 +195,9 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 		return store;
 	},
 	
-	getPageSize : function() {
-		var toolbar = this.down(' toolbar');
-		var pageSize = toolbar.down('#btnCountPerPage').getText();
-		return parseInt(pageSize);
-	},
-	
-	bindPagingToolbar : function(store) {
-		var pagingtoolbar = this.down(' pagingtoolbar');
-		pagingtoolbar.bindStore(store);
-	},
-	
+	/**
+	 * Get Layer Data - Headers & Data
+	 */	
 	getLayerDataAll : function(result) {
 		if(result) {
 			var headers = this.getLayerMetadata(result);
@@ -176,8 +214,6 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 	getLayerMetadata : function(result) {
 		var fields = result.field;
 		if(!fields) {
-			console.log('Field is null : ');
-			console.log(result);
 			return null;
 		}
 		
@@ -202,15 +238,11 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 	getLayerData : function(result) {
 		var headers = result.field;
 		if(!headers) {
-			console.log('Field is null - ');
-			console.log(result);
 			return null;
 		}
 		
 		var datum = result.datas;
 		if(!datum) {
-			console.log('Datas is null - ');
-			console.log(result);
 			return null;
 		}
 		
@@ -227,9 +259,5 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 		}
 		
 		return dataList;
-	},
-	
-	reconfigureSearchForm : function() {
-		// TODO
 	}
 });

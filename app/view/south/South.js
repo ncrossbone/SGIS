@@ -19,13 +19,13 @@ Ext.define('Sgis.view.south.South', {
 	
 	plain: true,
 	
-	split: true,
+	//split: true,
 	
 	collapsible: true,
 	
 	collapsed: true,
 	
-	resizable: true,
+	//resizable: true,
 	
 	frame: true,
 	

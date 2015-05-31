@@ -177,7 +177,7 @@ Ext.define('Sgis.map.CoreMap', {
 		this.map.addLayer(baseMap);
 	},
 	
-	mapReisze:function(){
+	mapResize:function(){
 		var me  = this;
 		if(this.map){
 			var xmin = this.map.extent.xmin;

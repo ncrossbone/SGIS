@@ -19,10 +19,6 @@ Ext.define('Cmm.mixin.Menu', function() {
 		} else {
 			current = view;
 		}
-
-		if (current.setParams) {
-			current.setParams(params || current.getParams());
-		}
 	}
 	
 	function popup(view, params, config) {
@@ -74,13 +70,6 @@ Ext.define('Cmm.mixin.Menu', function() {
 			south.add(current);
 		}
 		
-		//south.getLayout().setActiveItem(current);
-		//south.expand();
-
-		if (current.setParams) {
-			current.setParams(params || current.getParams());
-		}
-
 		return current;
 	}
 	
@@ -104,21 +93,7 @@ Ext.define('Cmm.mixin.Menu', function() {
 		}
 	}
 	
-	function findSearchGrid(layerId) {
-		var south = Ext.getCmp('south');
-		var current = null;
-		
-		Ext.each(south.getLayout().getLayoutItems(), function(comp) {
-			if(comp.layerId == layerId) {
-				current = comp;
-				return false;
-			}
-		});
-		
-		return current;
-	}
-	
-	function showSearchGrid(layerId, title) {
+	function findSearchGrid(layerId, title) {
 		var south = Ext.getCmp('south');
 		var current = null;
 		
@@ -134,11 +109,15 @@ Ext.define('Cmm.mixin.Menu', function() {
 			current = addSearchGrid(view, {}, { layerId : layerId, title : title });
 		}
 		
-		south.getLayout().setActiveItem(current);
-		south.expand();
-
-		if (current.setParams) {
-			current.setParams(params || current.getParams());
+		return current;
+	}
+	
+	function showSearchGrid(layerId, title) {
+		var current = findSearchGrid(layerId, title);
+		if(current) {
+			var south = Ext.getCmp('south');
+			south.getLayout().setActiveItem(current);
+			south.expand();
 		}
 
 		return current;

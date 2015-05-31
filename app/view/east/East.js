@@ -8,8 +8,6 @@ Ext.define('Sgis.view.east.East', {
 	
 	width: 250,
 	
-	split: true,
-
 	collapsible: true,
 	
 	collapsed: true,
