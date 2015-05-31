@@ -24,18 +24,20 @@ Ext.define('Sgis.view.south.LayerDynamicGridController', {
 			this.getView().getStore().load();
 			
 		} else {
-			// TODO Local Filter
 			var toolbar = this.getView().down(' toolbar');
-			var year = toolbar.down('#btnYear').getText();
-			var quarter = toolbar.down('#btnQuarter').getText();
+			var items = toolbar.items.items;
+			var params = {};
+
+			Ext.Array.each(items, function(item) {
+				if(item.xtype == 'cycle' && item.itemId != 'btnCountPerPage') {
+					params[item.itemId] = item.text;
+				}
+			});
 		
-			var params = {
-				year : year,
-				quarter : quarter
-			};
-		
+			var layerId = this.getView().layerId;
+			SGIS.msg.alert('Event : searchParamChange, Layer ID : ' + layerId);
 			console.log(params);
-			Sgis.getApplication().fireEvent('searchParamChange', this.getView().layerId, params);
+			Sgis.getApplication().fireEvent('searchParamChange', layerId, params);
 		}
 	},
 	

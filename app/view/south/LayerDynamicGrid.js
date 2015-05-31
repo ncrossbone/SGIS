@@ -33,7 +33,7 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 	
 	tbar : {
 		xtype : 'toolbar',
-		items : [{
+		items : [/*{
 			xtype : 'label',
 			text : '연도',
 			padding : '0 10 0 10'
@@ -73,7 +73,8 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 					text : '하반기'
 				}]
 			}
-		}, '->', {
+		},'->', {
+			itemId : 'lblCountPerPage',
 			xtype : 'label',
 			text : '페이지 당 데이터 개수',
 			padding : '0 10 0 00'
@@ -91,7 +92,7 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 					text : '50'
 				}]
 			}
-		}]
+		}*/]
 	},
 	
 	bbar : {
@@ -123,7 +124,110 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 	 * Reconfigure search form
 	 */
 	reconfigureSearchForm : function(result) {
-		// TODO
+		
+		var filters = result.filter;
+		if(!filters || filters.length == 0) {
+			return;
+		}
+		
+		// remove previous items
+		var toolbar = this.down(' toolbar');
+		var isFirst = toolbar.items.length > 0 ? false : true;
+		
+		// 1. 처음 툴바를 구성하는 것이라면 모든 필터 컴포넌트를 추가 
+		if(isFirst) {
+			// add new items
+			for(var i = 0 ; i < filters.length ; i++) {
+				var filter = filters[i];
+				var filterName = '';
+				var filterValues = [];
+			
+				for(var prop in filter) {
+					filterName = prop;
+					filterValues = filter[filterName];
+				}
+			
+				var filterLabel = this.newFilterLabel(filterName);
+				var filterItems = [];
+				for(var j = 0 ; j < filterValues.length ; j++) {
+					filterItems.push({
+						text : filterValues[j]
+					});
+				}
+			
+				var filterComp = this.newFilterComp(filterName, filterItems);
+				toolbar.add(filterLabel);
+				toolbar.add(filterComp);
+			}
+			
+			// add separator
+			toolbar.add('->');
+			
+			// add count per page label
+			toolbar.add({
+				itemId : 'lblCountPerPage',
+				xtype : 'label',
+				text : '페이지 당 데이터 개수',
+				padding : '0 10 0 00'
+			});
+			
+			// add count per page comp
+			toolbar.add({
+				itemId : 'btnCountPerPage',
+				xtype : 'cycle',
+				showText : true,
+				menu : {
+					items : [{
+						text : '15',
+						checked : true
+					}, {
+						text : '30'
+					}, {
+						text : '50'
+					}]
+				}
+			});
+			
+		// 2. 처음 툴바를 구성하는 것이 아니라면 필터 값만 변경
+		} else {
+			for(var i = 0 ; i < filters.length ; i++) {
+				var filter = filters[i];
+				var filterName = '';
+				var filterValues = [];
+			
+				for(var prop in filter) {
+					filterName = prop;
+					filterValues = filter[filterName];
+				}
+			
+				item = toolbar.child('#' + filterName);
+				item.items = [];
+				for(var j = 0 ; j < filterValues.length ; j++) {
+					item.items.push({
+						text : filterValues[j]
+					});
+				}
+			}
+		}
+	},
+	
+	newFilterLabel : function(filterName) {
+		return {
+			xtype : 'label',
+			text : filterName,
+			padding : '0 10 0 10'
+		};
+	},
+	
+	newFilterComp : function(filterName, filterItems) {
+		return {
+			itemId : filterName,
+			xtype : 'cycle',
+			showText : true,
+			menu : {
+				items : filterItems
+			}
+		};
 	},
 
 	/**
@@ -136,9 +240,6 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 			var data = this.getLayerDataAll(result);
 			if(data && data[0] && data[1]) {
 				this.reconfigureDynamicGrid(data[0], data[1]);
-			} else {
-				console.log('Result is invalid : ');
-				console.log(result);
 			}
 		} else {
 			var data = this.getLayerData(result);

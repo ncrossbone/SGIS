@@ -86,7 +86,11 @@ Ext.define('Sgis.view.north.North', {
 					}]
 				},
 				handler: 'onClickMapMode'
-			}, '->']
+			}, '->', {
+				xtype: 'button',
+				text: '설정',
+				handler: 'onClickSetting'
+			}]
 		}]
 	}]
   

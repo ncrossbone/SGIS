@@ -50,5 +50,11 @@ Ext.define('Sgis.view.north.NorthController', {
 	
 	onMapModeChange: function(button, item, eOpts) {
 		SGIS.msg.alert('맵 모드 ' + button.text + ' Clicked!');
+	},
+	
+	onClickSetting: function() {
+		var content = Ext.getCmp('content');
+		var layout = content.getLayout();
+		layout.setActiveItem(1);
 	}
 });

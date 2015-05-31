@@ -12,7 +12,7 @@ Ext.define('Sgis.view.east.East', {
 	
 	collapsed: true,
 	
-	resizable: true,
+	frame: true,
 	
 	title: 'Property',
 	
