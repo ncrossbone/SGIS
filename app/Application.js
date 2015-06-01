@@ -21,6 +21,10 @@ Ext.define('Sgis.Application', {
 	coreMap: null,
 
 	browser: null,
+	
+	meUrl:'http://' + window.location.hostname + ':' + window.location.port + '/',
+	proxyUrl:'http://' + window.location.hostname + ':' + window.location.port + '/sgis-war/proxy.jsp',
+	arcServiceUrl:'http://cetech.iptime.org:6080/arcgis',
 
 	stores: [
 		'Sgis.store.LayerTreeStore',

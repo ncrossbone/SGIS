@@ -7,8 +7,8 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 	sourceGraphicLayer:null,
 	targetGraphicLayer:null,
 	highlightGraphicLayer:null,
-	layer1Url: 'http://cetech.iptime.org:6080/arcgis/rest/services/Layer1_new/MapServer',
-	layer2Url: 'http://cetech.iptime.org:6080/arcgis/rest/services/Layer2/MapServer',
+	layer1Url: null,
+	layer2Url: null,
 	area1Arr:[],
 	timerId:null,
 	spSearchBool:true,
@@ -35,6 +35,9 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 		var me = this;
 		me.map = map;
 		
+		me.layer1Url = Sgis.app.arcServiceUrl + '/rest/services/Layer1_new/MapServer';
+		me.layer2Url = Sgis.app.arcServiceUrl + '/rest/services/Layer2/MapServer';
+		
 		me.smpLineSymbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([0,0,255,0.8]), 2);
 		me.simpleFillSymbol= new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, me.smpLineSymbol, new dojo.Color([0,0,255,0.1]));
 		
@@ -51,6 +54,14 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 		me.targetGraphicLayer = new esri.layers.GraphicsLayer();
 		me.targetGraphicLayer.id="targetGraphic";
 		me.map.addLayer(me.targetGraphicLayer);
+		dojo.connect(me.targetGraphicLayer, "onClick", function(event){
+			var attributes = event.graphic.attributes;
+			var properties = [];
+			for(var mem in attributes){
+				properties.push({id:mem, name:mem, value:attributes[mem]});
+			}
+			Sgis.getApplication().fireEvent('spotChanged', properties);
+		});
 		
 		me.highlightGraphicLayer = new esri.layers.GraphicsLayer();
 		me.highlightGraphicLayer.id="highlightGraphic";
@@ -88,7 +99,7 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
         me.sourceGraphicLayer.clear();
         me.sourceGraphicLayer.add(graphic);
         
-        var symbol = new esri.symbol.PictureMarkerSymbol('http://' + window.location.hostname + ':8080/resources/images/btn_close.png' , 16, 16);
+        var symbol = new esri.symbol.PictureMarkerSymbol(Sgis.app.meUrl + 'resources/images/btn_close.png' , 16, 16);
         var point
         if(event.type=='polygon'){
         	var finalRing = event.rings[0][event.rings[0].length-1];
@@ -158,7 +169,7 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 		me.targetGraphicLayer.clear();
 		me.highlightGraphicLayer.clear();
 		
-		var queryTask = new esri.tasks.QueryTask("http://cetech.iptime.org:6080/arcgis/rest/services/Layer2/MapServer/" + info.layerId);
+		var queryTask = new esri.tasks.QueryTask(Sgis.app.arcServiceUrl + "/rest/services/Layer2/MapServer/" + info.layerId);
 		var query = new esri.tasks.Query();
 		query.returnGeometry = true;
 		query.outSpatialReference = {"wkid":102100};
@@ -267,9 +278,9 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 						Ext.each(results.features, function(obj, index) {
 							var pictureMarkerSymbol;
 							if(layer=='5'){
-								pictureMarkerSymbol = new esri.symbol.PictureMarkerSymbol('http://' + window.location.hostname + ':8080/' + layer.iconInfo , 12, 12);
+								pictureMarkerSymbol = new esri.symbol.PictureMarkerSymbol(Sgis.app.meUrl + '/' + layer.iconInfo , 12, 12);
 							}else{
-								pictureMarkerSymbol = new esri.symbol.PictureMarkerSymbol('http://' + window.location.hostname + ':8080/' + layer.iconInfo , 16, 16);
+								pictureMarkerSymbol = new esri.symbol.PictureMarkerSymbol(Sgis.app.meUrl + '/' + layer.iconInfo , 16, 16);
 							}
 							obj.setSymbol(pictureMarkerSymbol);
 				    		me.targetGraphicLayer.add(obj);

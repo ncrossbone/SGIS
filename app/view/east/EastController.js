@@ -12,7 +12,7 @@ Ext.define('Sgis.view.east.EastController', {
 		Sgis.getApplication().addListener('spotChanged', this.spotPropertyChange, this);
 	},
 	
-	spotPropertyChange: function(layerId, properties) {
+	spotPropertyChange: function(properties) {
 		var propertyGrid = this.getView().down('spot_property_grid');
 		propertyGrid.getStore().loadData(properties);
 		this.getView().expand();
