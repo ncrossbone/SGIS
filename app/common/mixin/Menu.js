@@ -54,16 +54,22 @@ Ext.define('Cmm.mixin.Menu', function() {
 		}
 	}
 	
+	function findLayerComponent(layoutItems, layerId) {
+		var component = null;
+		
+		for(var i = 0 ; i < layoutItems.length ; i++) {
+			var comp = layoutItems[i];
+			if(comp.layerId == layerId) {
+				component = comp;
+			}
+		}
+
+		return component;
+	}
+	
 	function addSearchGrid(view, params, config) {
 		var south = Ext.getCmp('south');
-		var current = null;
-		
-		Ext.each(south.getLayout().getLayoutItems(), function(comp) {
-			if(comp.layerId == config.layerId) {
-				current = comp;
-				return false;
-			}
-		});
+		var current = findLayerComponent(south.getLayout().getLayoutItems(), config.layerId);
 		
 		if(!current) {
 			current = Ext.create(view, config);
@@ -75,14 +81,7 @@ Ext.define('Cmm.mixin.Menu', function() {
 	
 	function removeSearchGrid(layerId) {
 		var south = Ext.getCmp('south');
-		var current = null;
-		
-		Ext.each(south.getLayout().getLayoutItems(), function(comp) {
-			if(comp.layerId == layerId) {
-				current = comp;
-				return false;
-			}
-		});
+		var current = findLayerComponent(south.getLayout().getLayoutItems(), layerId);
 		
 		if(current) {
 			south.remove(current);
@@ -95,14 +94,7 @@ Ext.define('Cmm.mixin.Menu', function() {
 	
 	function findSearchGrid(layerId, title) {
 		var south = Ext.getCmp('south');
-		var current = null;
-		
-		Ext.each(south.getLayout().getLayoutItems(), function(comp) {
-			if(comp.layerId == layerId) {
-				current = comp;
-				return false;
-			}
-		});
+		var current = findLayerComponent(south.getLayout().getLayoutItems(), layerId);
 		
 		if(!current) {
 			var view = 'Sgis.view.south.LayerDynamicGrid';
@@ -116,7 +108,6 @@ Ext.define('Cmm.mixin.Menu', function() {
 		var current = findSearchGrid(layerId, title);
 		if(current) {
 			var south = Ext.getCmp('south');
-			south.getLayout().setActiveItem(current);
 			south.expand();
 		}
 
