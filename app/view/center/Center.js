@@ -16,6 +16,7 @@ Ext.define('Sgis.view.center.Center', {
 	}, {
 		xtype: 'app-south',
 		region: 'south',
-		width: 350
+		width: 350,
+		hidden: true
 	}]
 });

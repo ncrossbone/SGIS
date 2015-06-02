@@ -106,10 +106,10 @@ Ext.define('Cmm.mixin.Menu', function() {
 	
 	function showSearchGrid(layerId, title) {
 		var current = findSearchGrid(layerId, title);
-		if(current) {
-			var south = Ext.getCmp('south');
-			south.expand();
-		}
+//		if(current) {
+//			var south = Ext.getCmp('south');
+//			south.expand();
+//		}
 
 		return current;
 	}

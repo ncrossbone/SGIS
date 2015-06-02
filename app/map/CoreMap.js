@@ -63,6 +63,7 @@ Ext.define('Sgis.map.CoreMap', {
   		         function() {
 		        	esri.config.defaults.io.proxyUrl = Sgis.app.proxyUrl;
 		    		esri.config.defaults.io.alwaysUseProxy = true;
+		    		esri.config.defaults.io.postLength = 1;
 		        	me.map = new esri.Map('_mapDiv_', {
 		        		isDoubleClickZoom:false,
 		    	     	isPan:true,

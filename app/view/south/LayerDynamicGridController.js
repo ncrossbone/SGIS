@@ -42,7 +42,7 @@ Ext.define('Sgis.view.south.LayerDynamicGridController', {
 	},
 	
 	dataGridSelect: function(grid, record, item, index, e, eOpts) {
-		SGIS.msg.alert('Layer : ' + this.getView().layerId + ', Object Id : ' + record.get('OBJECTID') + ', Event : dataGridSelect');
-		Sgis.getApplication().fireEvent('dataGridSelect', grid.layerId, record);
+		//SGIS.msg.alert('Layer : ' + this.getView().layerId + ', Object Id : ' + record.get('OBJECTID') + ', Event : dataGridSelect');
+		Sgis.getApplication().fireEvent('dataGridSelect', this.getView().layerId, record);
 	}
 });

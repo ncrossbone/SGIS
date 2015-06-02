@@ -9,6 +9,7 @@ Ext.define('Sgis.view.south.SouthController', {
 	constructor: function() {
 		this.callParent();
 		Sgis.getApplication().addListener('searchComplete', this.searchGrid, this);
+		Sgis.getApplication().addListener('leftTabChange', this.leftTabChangeHandler, this);
 	},
 	
 	searchGrid: function(results) {
@@ -23,5 +24,14 @@ Ext.define('Sgis.view.south.SouthController', {
 				grid.refreshGrid(result);
 			}
 		}
+	},
+	
+	leftTabChangeHandler:function(tabXtype){
+		var me = this;
+		if(tabXtype=='app-west-tab2'){
+			me.getView().show();
+    	}else{
+    		me.getView().hide();
+    	}
 	}
 });

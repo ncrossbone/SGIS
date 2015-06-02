@@ -8,7 +8,7 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 	targetGraphicLayer:null,
 	highlightGraphicLayer:null,
 	layer1Url: null,
-	layer2Url: null,
+	//layer2Url: null,
 	area1Arr:[],
 	timerId:null,
 	spSearchBool:true,
@@ -36,7 +36,7 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 		me.map = map;
 		
 		me.layer1Url = Sgis.app.arcServiceUrl + '/rest/services/Layer1_new/MapServer';
-		me.layer2Url = Sgis.app.arcServiceUrl + '/rest/services/Layer2/MapServer';
+		//me.layer2Url = Sgis.app.arcServiceUrl + '/rest/services/Layer2/MapServer';
 		
 		me.smpLineSymbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([0,0,255,0.8]), 2);
 		me.simpleFillSymbol= new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, me.smpLineSymbol, new dojo.Color([0,0,255,0.1]));
@@ -79,6 +79,7 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 		Sgis.getApplication().addListener('searchBtnClick', me.searchBtnClickfHandler, me);
 		Sgis.getApplication().addListener('leftTabChange', me.leftTabChangeHandler, me); //레이어탭 app-west-tab1 //자료검색탭활 app-west-tab2
 		Sgis.getApplication().addListener('areaSelect', me.areaSelectHandler, me); 
+		Sgis.getApplication().addListener('dataGridSelect', me.dataGridSelectHandler, me); 
     },
     
     addToMap:function(event){
@@ -303,5 +304,48 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 				});
 			}
 		});
+	},
+	
+	dataGridSelectHandler:function(layerId, record){
+		var me = this;
+		me.highlightGraphicLayer.clear();
+		var queryTask = new esri.tasks.QueryTask(me.layer1Url + "/" + layerId);
+		var query = new esri.tasks.Query();
+		query.returnGeometry = true;
+		query.outSpatialReference = {"wkid":102100};
+		query.where = "OBJECTID=" + record.data.OBJECTID;
+		query.outFields = ["*"];
+		queryTask.execute(query,  function(results){
+			var feature = results.features[0];
+			feature.geometry.spatialReference = new esri.SpatialReference({wkid:102100});
+			me.symbolHighlight(feature);
+			me.map.centerAt(esri.geometry.Point(feature.geometry));
+		});
+		dojo.connect(queryTask, "onError", function(err) {
+			alert(err);
+		});
+	},
+	
+	symbolHighlight: function(feature){
+		var me = this;
+		me.highlightGraphicLayer.show();
+		var pictureMarkerSymbol = new esri.symbol.PictureMarkerSymbol(Sgis.app.meUrl + 'resources/images/layerIcon/pin_24x24.png' , 24, 24);
+		pictureMarkerSymbol.setOffset(0, 12);
+		feature.setSymbol(pictureMarkerSymbol);
+		me.highlightGraphicLayer.add(feature);
+		
+		var i=0;
+		var timerId = window.setInterval(function(){
+			if(i%2==0){
+				me.highlightGraphicLayer.hide();
+			}else{
+				me.highlightGraphicLayer.show();
+			}
+			if(i>16){
+				me.highlightGraphicLayer.hide();
+				window.clearInterval(timerId);
+			}
+			i++;
+		}, 300);
 	}
 });
