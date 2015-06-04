@@ -1,7 +1,6 @@
 Ext.define('Sgis.map.SearchLayerAdmin', {
 	map:null, 
 	toolbar:null,
-	gsvc:null,
 	selectLayerInfo:{},
 	geometry:null,
 	sourceGraphicLayer:null,
@@ -16,10 +15,13 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 	layerDisplayFiledInfo:{},
 	smpLineSymbol:null,
 	simpleFillSymbol:null,
+	geometryService:null,
+	buffRadus:null,
 	
-	constructor: function(map) {
+	constructor: function(map, geometryService) {
 		var me = this;
 		me.map = map;
+		me.geometryService = geometryService;
 		
 		me.layer1Url = Sgis.app.arcServiceUrl + '/rest/services/Layer1_new/MapServer';
 		//me.layer2Url = Sgis.app.arcServiceUrl + '/rest/services/Layer2/MapServer';
@@ -80,15 +82,20 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
         me.map.isPan = true;
         if(event.type=='extent'){
         	me.geometry = new esri.geometry.Extent(event);
+        	 me.addDrawGraphic(event)
         }else if(event.type=='point'){
         	symbol = new esri.symbol.SimpleMarkerSymbol();
         	me.geometry = new esri.geometry.Point(event);
         	me.bufferDisplayAndXY();
         }else if(event.type=='polygon'){
         	me.geometry = new esri.geometry.Polygon(event);
+        	 me.addDrawGraphic(event)
         }
-        
-        var graphic = new esri.Graphic(me.geometry, me.simpleFillSymbol);
+	},
+	
+	addDrawGraphic:function(event){
+		var me = this;
+		var graphic = new esri.Graphic(me.geometry, me.simpleFillSymbol);
         me.sourceGraphicLayer.clear();
         me.sourceGraphicLayer.add(graphic);
         
@@ -98,7 +105,6 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
         	var finalRing = event.rings[0][event.rings[0].length-1];
     		point = new esri.geometry.Point(finalRing[0], finalRing[1], new esri.SpatialReference({"wkid":102100}));
         }else{
-        	
     		point = new esri.geometry.Point(event.xmax, event.ymax, new esri.SpatialReference({"wkid":102100}));
         }
 		point.uuid = dojo.dojox.uuid.generateRandomUuid();
@@ -119,6 +125,9 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
     		me.toolbar.activate(esri.toolbars.Draw[btnInfo.drawType]);
     		me.map.setMapCursor("default");
     		me.map.isPan = false;
+    		if(btnInfo.radus){
+    			me.buffRadus = btnInfo.radus;
+    		}
     	}else{
     		me.toolbar.deactivate();
     		me.map.isPan = true;
@@ -207,6 +216,51 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 		dojo.connect(queryTask, "onError", function(err) {
 			alert(err);
 		});
+	},
+	
+	bufferDisplayAndXY:function(){
+		var me = this;
+		var params = new esri.tasks.ProjectParameters();
+	    params.geometries = [me.geometry];
+	    params.outSR = new esri.SpatialReference({wkid: 4326});
+	    me.geometryService.project(params, function(result) { 
+	    	if(result.length>0){
+	    		$('#searchDivNew_x').val(result[0].x);
+	    		$('#searchDivNew_y').val(result[0].y);
+	    	}
+		});
+	    
+	    var params = new esri.tasks.BufferParameters();
+	    params.geometries  = [ me.geometry ];
+	    params.distances = [ me.buffRadus*1000 ];
+	    params.outSpatialReference = new esri.SpatialReference({wkid:102100});
+	    params.bufferSpatialReference = new esri.SpatialReference({wkid:102080});
+	    
+	    params.unit = esri.tasks.GeometryService.UNIT_METER;
+	    me.geometryService.buffer(params, function(result){
+	    	if(result.length>0){
+	    		me.geometry = result[0];
+	    		
+	    	
+	    		var graphic = new esri.Graphic(me.geometry, me.simpleFillSymbol);
+	            me.sourceGraphicLayer.clear();
+	            me.sourceGraphicLayer.add(graphic);
+	            
+	            var symbol = new esri.symbol.PictureMarkerSymbol(Sgis.app.meUrl + 'resources/images/btn_close.png' , 16, 16);
+	            var finalRing = me.geometry.rings[0][me.geometry.rings[0].length-1];
+	            var point = new esri.geometry.Point(finalRing[0], finalRing[1], new esri.SpatialReference({"wkid":102100}));
+	    		point.uuid = dojo.dojox.uuid.generateRandomUuid();
+	    		var graphic = new esri.Graphic(point, symbol);
+	    		graphic.img = 'btn_close'; 
+	    		me.sourceGraphicLayer.add(graphic);
+	            
+	            Sgis.getApplication().fireEvent('drawComplte', null);
+	            me.spSearch();
+	            
+	    	}
+	  	},function(){
+	  		Sgis.getApplication().fireEvent('drawComplte', null)
+	  	});
 	},
     
     spSearch:function(filterObject){

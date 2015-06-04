@@ -69,44 +69,78 @@ Ext.define('Sgis.view.west.WestTab2', {
 		}, {
 			title: '영역검색',
 			collapsed: false,
-			id:'btnHBox',
+			id:'btnVBox',
 			layout: {
-				type: 'hbox',
+				type: 'vbox',
 				align: 'stretch'
 			},
-			bodyPadding: 10,
+			
 			items: [{
-				xtype: 'button',
-				text: '원형',
-				flex: 1,
-				margin: '0 4 0 0',
-				handler: 'onAreaCircleClick',
-				enableToggle: true,
-				toggleGroup: 'seachBtnGroup'
-			}, {
-				xtype: 'button',
-				text: '사각형',
-				flex: 1,
-				margin: '0 4 0 0',
-				handler: 'onAreaRectClick',
-				enableToggle: true,
-				toggleGroup: 'seachBtnGroup'
-			}, {
-				xtype: 'button',
-				text: '다각형',
-				flex: 1,
-				margin: '0 4 0 0',
-				handler: 'onAreaPolygonClick',
-				enableToggle: true,
-				toggleGroup: 'seachBtnGroup'
-			}, {
-				xtype: 'button',
-				text: '반경',
-				flex: 1,
-				margin: '0 4 0 0',
-				handler: 'onAreaRadiusClick',
-				enableToggle: true,
-				toggleGroup: 'seachBtnGroup'
+				id:'btnHBox',
+				layout: {
+					type: 'hbox',
+					align: 'stretch'
+				},
+				bodyPadding: 10,
+				items: [{
+					xtype: 'button',
+					text: '원형',
+					flex: 1,
+					margin: '0 4 0 0',
+					handler: 'onAreaCircleClick',
+					enableToggle: true,
+					toggleGroup: 'seachBtnGroup'
+				}, {
+					xtype: 'button',
+					text: '사각형',
+					flex: 1,
+					margin: '0 4 0 0',
+					handler: 'onAreaRectClick',
+					enableToggle: true,
+					toggleGroup: 'seachBtnGroup'
+				}, {
+					xtype: 'button',
+					text: '다각형',
+					flex: 1,
+					margin: '0 4 0 0',
+					handler: 'onAreaPolygonClick',
+					enableToggle: true,
+					toggleGroup: 'seachBtnGroup'
+				}, {
+					xtype: 'button',
+					text: '반경',
+					flex: 1,
+					margin: '0 4 0 0',
+					handler: 'onAreaRadiusClick',
+					enableToggle: true,
+					toggleGroup: 'seachBtnGroup'
+				}]
+			},{
+				xtype: 'form',
+				id:'radusForm',
+				height:25,
+				width: 100,
+				hidden:true,
+				margin: '0 8 0 0',
+				defaultType: 'textfield',
+				layout: {
+					type: 'hbox',
+					align: 'stretch'
+				},
+			    items: [
+			        {
+			            fieldLabel: '&nbsp;&nbsp;&nbsp;&nbsp;반경입력(km)',
+			            id: 'radusVal',
+			            width:180,
+			        },{
+			        	xtype: 'button',
+			        	id: 'pointBtn',
+						text: '위치선택',
+						enableToggle: true,
+						margin: '0 4 0 4',
+						handler: 'onAreaPointClick',
+			        }
+			    ]
 			}]
 		}, {
 			title: '레이어',

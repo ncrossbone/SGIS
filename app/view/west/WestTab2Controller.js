@@ -87,19 +87,41 @@ Ext.define('Sgis.view.west.WestTab2Controller', {
 	},
 
 	onAreaCircleClick: function(button, e) {
+		Ext.getCmp('radusForm').hide();
 		Sgis.getApplication().fireEvent('searchBtnClick', {drawType:'CIRCLE', state:button.pressed});
 	},
 	
 	onAreaRectClick: function(button, e) {
+		Ext.getCmp('radusForm').hide();
 		Sgis.getApplication().fireEvent('searchBtnClick', {drawType:'EXTENT', state:button.pressed});
 	},
 	
 	onAreaPolygonClick: function(button, e) {
+		Ext.getCmp('radusForm').hide();
 		Sgis.getApplication().fireEvent('searchBtnClick', {drawType:'POLYGON', state:button.pressed});
 	},
 	
 	onAreaRadiusClick: function(button, e) {
-		Sgis.getApplication().fireEvent('searchBtnClick', {drawType:'POINT', state:button.pressed});
+		if(button.pressed){
+			Ext.getCmp('radusForm').show();
+		}else{
+			Ext.getCmp('radusForm').hide();
+		}
+	},
+	
+	onAreaPointClick: function(button, e) {
+		var radus  = Ext.getCmp('radusVal').getValue();
+		if(!radus){
+			Ext.getCmp('radusVal').setValue(3);
+			radus  = 3;
+		}
+		if(button.pressed){
+			Ext.getCmp('radusVal').setDisabled(true);
+		}else{
+			Ext.getCmp('radusVal').setDisabled(false);
+		}
+			
+		Sgis.getApplication().fireEvent('searchBtnClick', {drawType:'POINT', state:button.pressed, radus:radus});
 	},
 	
 	drawComplteHandler: function(){
@@ -107,6 +129,9 @@ Ext.define('Sgis.view.west.WestTab2Controller', {
 		Ext.each(btnAr, function(btn, index) {
 			btn.setPressed(false);
 		});
+		Ext.getCmp('radusForm').hide();
+		Ext.getCmp('pointBtn').setPressed(false);
+		Ext.getCmp('radusVal').setDisabled(false);
 	},
 	
 	onCheckChanged: function(node, checked, eOpts) {

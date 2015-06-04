@@ -33,11 +33,11 @@ Ext.define('Sgis.view.north.NorthController', {
 	},
 	
 	onClickPrint: function () {
-		Sgis.getApplication().coreMap.printTask.print();
+		Sgis.getApplication().coreMap.print();
 	},
 	
 	onClickSave: function () {
-		Sgis.getApplication().coreMap.printTask.capture();
+		Sgis.getApplication().coreMap.capture();
 	},
 	
 	onClickGray: function (button) {

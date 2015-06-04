@@ -59,7 +59,8 @@ Ext.define('Sgis.map.CoreMap', {
   		         "esri/tasks/AreasAndLengthsParameters",
   		         "dijit/layout/BorderContainer",
   		         "dijit/layout/ContentPane",
-  		         "dojox/uuid/generateRandomUuid"],  
+  		         "dojox/uuid/generateRandomUuid",
+  		         "esri/tasks/ProjectParameters"],  
   		         function() {
 		        	esri.config.defaults.io.proxyUrl = Sgis.app.proxyUrl;
 		    		esri.config.defaults.io.alwaysUseProxy = true;
@@ -77,7 +78,7 @@ Ext.define('Sgis.map.CoreMap', {
 		        	
 		        	Ext.Loader.loadScript({url:'app/map/toolbar/CustomDraw.js', onLoad:function(){
 		        		me.dynamicLayerAdmin = Ext.create('Sgis.map.DynamicLayerAdmin', me.map);
-			        	me.searchLayerAdmin = Ext.create('Sgis.map.SearchLayerAdmin', me.map);
+			        	me.searchLayerAdmin = Ext.create('Sgis.map.SearchLayerAdmin', me.map, me.geometryService);
 		        		me.toolbar = new ash.map.toolbar.CustomDraw(me.map, {showTooltips:false}, true, me.map.graphics);
 			        	dojo.connect(me.toolbar, "onDrawEnd", function(event){
 			    			me.map.setMapCursor("default");
@@ -87,6 +88,9 @@ Ext.define('Sgis.map.CoreMap', {
 		        	
 		        	Ext.Loader.loadScript({url:'app/map/task/CustomPrintTask.js', onLoad:function(){
 		        		me.printTask = new ash.map.task.CustomPrintTask(me.map, "_mapDiv_", Sgis.app.arcServiceUrl);
+		        		dojo.connect(me.printTask, "onComplete", function(event){	
+		        			SGIS.loading.finish();
+		        		});
 		        	}, onError:function(){}});
 		        	
 		        	me.smpLineSymbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([0,0,255,0.8]), 2);
@@ -335,5 +339,17 @@ Ext.define('Sgis.map.CoreMap', {
 		}else{
 			me.extentUnReIdx = me.extentReg.length - 1;
 		}
+	},
+	
+	print:function(){
+		var me = this;
+		me.printTask.print();
+		SGIS.loading.execute();
+	},
+	
+	capture:function(){
+		var me = this;
+		me.printTask.capture();
+		SGIS.loading.execute();
 	}
 });
