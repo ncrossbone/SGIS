@@ -14,7 +14,8 @@ Ext.define('Sgis.view.east.EastController', {
 	
 	spotPropertyChange: function(properties) {
 		var propertyGrid = this.getView().down('spot_property_grid');
-		propertyGrid.getStore().loadData(properties);
+		propertyGrid.getStore().setFields(['id', 'name', 'value']);
+		propertyGrid.getStore().loadRawData(properties);
 		this.getView().expand();
 	}
 });

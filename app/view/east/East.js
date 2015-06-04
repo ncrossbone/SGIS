@@ -1,10 +1,12 @@
 Ext.define('Sgis.view.east.East', {
 	
-	extend: 'Ext.panel.Panel',
+	extend: 'Ext.tab.Panel',
 	
 	requires: ['Sgis.view.east.SpotPropertyGrid'],
 	
 	xtype: 'app-east',
+	
+	controller: 'app-east',
 	
 	width: 250,
 	
