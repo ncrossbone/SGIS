@@ -10,7 +10,8 @@
         "leaf": true,
         "checked": false,
         "iconCls": "layer1",
-        "iconInfo": "resources/images/layerIcon/Layer1.png"
+        "iconInfo": "resources/images/layerIcon/Layer1.png",
+        "filter" : [{GWMYR:['2010']}, {GWMOD:['상반기', '하반기']}]
     },{
 		"id" : "2",
 		"layerId" : "2",
@@ -18,7 +19,8 @@
         "leaf": true,
         "checked": false,
         "iconCls": "layer2",
-        "iconInfo": "resources/images/layerIcon/Layer2.png"
+        "iconInfo": "resources/images/layerIcon/Layer2.png",
+         "filter" : [{GWMYR:['2010']}, {GWMOD:['상반기', '하반기']}]
     },{
 		"id" : "3",
 		"layerId" : "3",
@@ -26,7 +28,8 @@
         "leaf": true,
         "checked": false,
         "iconCls": "layer3",
-        "iconInfo": "resources/images/layerIcon/Layer3.png"
+        "iconInfo": "resources/images/layerIcon/Layer3.png",
+        "filter" : [{QLTWTR_ANALS_YEAR:['2010']}, {QLTWTR_ANALS_QU:['1분기', '2분기', '3분기', '4분기']}]
     },{
 		"id" : "4",
 		"layerId" : "4",
@@ -34,7 +37,8 @@
         "leaf": true,
         "checked": false,
         "iconCls": "layer4",
-        "iconInfo": "resources/images/layerIcon/Layer4.png"
+        "iconInfo": "resources/images/layerIcon/Layer4.png",
+        "filter" : [{QLTWTR_ANALS_YEAR:['2010']}, {QLTWTR_ANALS_QU:['1분기', '2분기', '3분기', '4분기']}]
     },{
 		"id" : "5",
 		"layerId" : "5",
@@ -42,7 +46,8 @@
         "leaf": true,
         "checked": false,
         "iconCls": "layer5",
-        "iconInfo": "resources/images/layerIcon/Layer5.png"
+        "iconInfo": "resources/images/layerIcon/Layer5.png",
+        "filter" : [{YEAR:['2010']}]
     },{
 		"id" : "6",
 		"layerId" : "6",
@@ -50,7 +55,8 @@
         "leaf": true,
         "checked": false,
         "iconCls": "layer6",
-        "iconInfo": "resources/images/layerIcon/Layer6.png"
+        "iconInfo": "resources/images/layerIcon/Layer6.png",
+        "filter" : []
     }]
 },{
 	"id" : "p2",
@@ -65,7 +71,8 @@
         "leaf": true,
         "checked": false,
         "iconCls": "layer8",
-        "iconInfo": "resources/images/layerIcon/Layer8.png"
+        "iconInfo": "resources/images/layerIcon/Layer8.png",
+        "filter" : []
     },{
 		"id" : "9",
 		"layerId" : "9",
@@ -73,7 +80,8 @@
         "leaf": true,
         "checked": false,
         "iconCls": "layer9",
-        "iconInfo": "resources/images/layerIcon/Layer9.png"
+        "iconInfo": "resources/images/layerIcon/Layer9.png",
+        "filter" : [{등록년도:['2010']}, {등록반기:['상반기', '하반기']}]
     },{
 		"id" : "10",
 		"layerId" : "10",
@@ -81,7 +89,8 @@
         "leaf": true,
         "checked": false,
         "iconCls": "layer10",
-        "iconInfo": "resources/images/layerIcon/Layer10.png"
+        "iconInfo": "resources/images/layerIcon/Layer10.png",
+        "filter" : [{SSYR:['2010']}]
     },{
 		"id" : "11",
 		"layerId" : "11",
@@ -89,7 +98,8 @@
         "leaf": true,
         "checked": false,
         "iconCls": "layer11",
-        "iconInfo": "resources/images/layerIcon/Layer11.png"
+        "iconInfo": "resources/images/layerIcon/Layer11.png",
+        "filter" :[{YEAR:['2013']}, {EXAMIN_PNTTM:['하반기']}]
     }]
 },{
 	"id" : "p3",
@@ -104,7 +114,8 @@
         "leaf": true,
         "checked": false,
         "iconCls": "layer13",
-        "iconInfo": "resources/images/layerIcon/Layer13.png"
+        "iconInfo": "resources/images/layerIcon/Layer13.png",
+        "filter" :[{YEAR:['1차년도']}]
     },{
 		"id" : "14",
 		"layerId" : "14",
@@ -112,7 +123,8 @@
         "leaf": true,
         "checked": false,
         "iconCls": "layer14",
-        "iconInfo": "resources/images/layerIcon/Layer14.png"
+        "iconInfo": "resources/images/layerIcon/Layer14.png",
+        "filter" :[{YEAR:['1차년도']}]
     },{
 		"id" : "15",
 		"layerId" : "15",
@@ -120,7 +132,8 @@
         "leaf": true,
         "checked": false,
         "iconCls": "layer15",
-        "iconInfo": "resources/images/layerIcon/Layer15.png"
+        "iconInfo": "resources/images/layerIcon/Layer15.png",
+        "filter" :[{SYEAR:['2013']}]
     },{
 		"id" : "16",
 		"layerId" : "16",
@@ -128,6 +141,7 @@
         "leaf": true,
         "checked": false,
         "iconCls": "layer16",
-        "iconInfo": "resources/images/layerIcon/Layer16.png"
+        "iconInfo": "resources/images/layerIcon/Layer16.png",
+        "filter" :[]
     }]
 }]

@@ -17,20 +17,6 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 	smpLineSymbol:null,
 	simpleFillSymbol:null,
 	
-	filterInfo:{
-		"1" :[{GWMYR:['2010']}, {GWMOD:['상반기', '하반기']}],
-		"2" :[{GWMYR:['2010']}, {GWMOD:['상반기', '하반기']}],
-		"3" :[{QLTWTR_ANALS_YEAR:['2010']}, {QLTWTR_ANALS_QU:['1분기', '2분기', '3분기', '4분기']}],
-		"4" :[{QLTWTR_ANALS_YEAR:['2010']}, {QLTWTR_ANALS_QU:['1분기', '2분기', '3분기', '4분기']}],
-		"5" :[{YEAR:['2010']}],
-		"9" :[{등록년도:['2010']}, {등록반기:['상반기', '하반기']}],
-		"10" :[{SSYR:['2010']}],
-		"11" :[{YEAR:['2013']}, {EXAMIN_PNTTM:['하반기']}],
-		"13" :[{YEAR:['1차년도']}],
-		"14" :[{YEAR:['1차년도']}],
-		"15" :[{SYEAR:['2013']}]
-	},
-	
 	constructor: function(map) {
 		var me = this;
 		me.map = map;
@@ -80,6 +66,12 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 		Sgis.getApplication().addListener('leftTabChange', me.leftTabChangeHandler, me); //레이어탭 app-west-tab1 //자료검색탭활 app-west-tab2
 		Sgis.getApplication().addListener('areaSelect', me.areaSelectHandler, me); 
 		Sgis.getApplication().addListener('dataGridSelect', me.dataGridSelectHandler, me); 
+		
+		dojo.connect(me.map, "onExtentChange", 
+			 function(extent){  
+		 		me.areaAutoDisplayCheck();
+	 		}
+		 )
     },
     
     addToMap:function(event){
@@ -243,7 +235,7 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 				var datas = [];
 				resultData.field = me.layerDisplayFiledInfo[layer.layerId];
 				
-				resultData.filter = me.filterInfo[layer.layerId];
+				resultData.filter = layer.filter;
 				resultData.filterCallback = me.spSearch;
 				resultData.filterCallbackScope = me;
 				
@@ -269,7 +261,9 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 					}
 					if(results.features.length==0){
 						exeComplteCnt++;
-						complteData.push(resultData);
+						if(resultData.field && resultData.field.length>0){
+							complteData.push(resultData);
+						}
 						if(exeComplteCnt==me.layers.length){
 							Sgis.getApplication().fireEvent('searchComplete', complteData);
 						}
@@ -290,7 +284,9 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 				    		obj.attributes._layerId_ = layer.layerId;
 				    		if(results.features.length==index+1){
 				    			exeComplteCnt++;
-				    			complteData.push(resultData);
+				    			if(resultData.field && resultData.field.length>0){
+									complteData.push(resultData);
+								}
 								if(exeComplteCnt==me.layers.length){
 									Sgis.getApplication().fireEvent('searchComplete', complteData);
 								}
@@ -347,5 +343,47 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 			}
 			i++;
 		}, 300);
+	},
+	
+	areaAutoDisplayCheck:function(){
+		var me = this;
+		
+		var xmin = 999999999;
+		var ymin = 999999999;
+		var xmax = -999999999;
+		var ymax = -999999999;
+		
+		for(var k=0; k<me.sourceGraphicLayer.graphics.length; k++){
+			var feature = me.sourceGraphicLayer.graphics[k];
+			if(!feature.geometry){
+				continue;
+			}
+			feature.geometry.spatialReference = new esri.SpatialReference({"wkid":102100});
+			var extent = esri.geometry.Polygon(feature.geometry).getExtent();
+			if(extent.xmin<xmin){
+				xmin = extent.xmin;
+			}
+			if(extent.ymin<ymin){
+				ymin = extent.ymin;
+			}
+			if(extent.xmax>xmax){
+				xmax = extent.xmax;
+			}
+			if(extent.ymax>ymax){
+				ymax = extent.ymax;
+			}
+		}
+		if(xmin!=999999999){
+			var currExtent = me.map.extent;
+			if((xmin < currExtent.xmin && xmax>currExtent.xmax) || (ymin < currExtent.ymin && ymax>currExtent.ymax)){
+				$.each(me.sourceGraphicLayer.graphics, function(index, graphic) {
+					graphic.setSymbol(me.noneSimpleFillSymbol);
+				});
+			}else{
+				$.each(me.sourceGraphicLayer.graphics, function(index, graphic) {
+					graphic.setSymbol(me.simpleFillSymbol);
+				});
+			}
+		}
 	}
 });
