@@ -36,5 +36,11 @@ Ext.define('Sgis.view.west.West', {
 		text: '축척정보',
 		flex: 1,
 		handler: 'onClickWestScale'
+	}, {
+		id: 'btnWestLegalNotice',
+		xtype: 'button',
+		text: '법적고지',
+		flex: 1,
+		handler: 'onClickLegalNotice'
 	}]
 });

@@ -1,3 +1,27 @@
+.menu_overview {
+    background-image: url(resources/images/menus/icon_overview.png) !important;
+}
+.menu_prev {
+    background-image: url(resources/images/menus/icon_overview.png) !important;
+}
+.menu_next {
+    background-image: url(resources/images/menus/icon_overview.png) !important;
+}
+.menu_measure {
+    background-image: url(resources/images/menus/icon_overview.png) !important;
+}
+.menu_print {
+    background-image: url(resources/images/menus/icon_overview.png) !important;
+}
+.menu_save {
+    background-image: url(resources/images/menus/icon_overview.png) !important;
+}
+.menu_gray {
+    background-image: url(resources/images/menus/icon_overview.png) !important;
+}
+.menu_setting {
+    background-image: url(resources/images/menus/icon_overview.png) !important;
+}
 .layer1 {
     background-image: url(resources/images/layerIcon/Layer1.png) !important;
 }

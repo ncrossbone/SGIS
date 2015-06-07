@@ -1,6 +1,6 @@
 Ext.define('Sgis.view.east.East', {
 	
-	extend: 'Ext.tab.Panel',
+	extend: 'Ext.panel.Panel',
 	
 	requires: ['Sgis.view.east.SpotPropertyGrid'],
 	
@@ -15,6 +15,8 @@ Ext.define('Sgis.view.east.East', {
 	collapsed: true,
 	
 	frame: true,
+	
+	autoScroll: true,
 	
 	title: 'Property',
 	

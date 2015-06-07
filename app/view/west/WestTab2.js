@@ -24,10 +24,10 @@ Ext.define('Sgis.view.west.WestTab2', {
 	items: [{
 		xtype: 'panel',
 		layout: {
-	        type: 'accordion',      
-	        animate: true,
-	        multi: true
-	    },
+			type: 'accordion',
+			animate: true,
+			multi: true
+		},
 		items: [{
 			title: '지역검색',
 			collapsed: false,
@@ -127,20 +127,20 @@ Ext.define('Sgis.view.west.WestTab2', {
 					type: 'hbox',
 					align: 'stretch'
 				},
-			    items: [
-			        {
-			            fieldLabel: '&nbsp;&nbsp;&nbsp;&nbsp;반경입력(km)',
-			            id: 'radusVal',
-			            width:180,
-			        },{
-			        	xtype: 'button',
-			        	id: 'pointBtn',
+				items: [
+					{
+						fieldLabel: '&nbsp;&nbsp;&nbsp;&nbsp;반경입력(km)',
+						id: 'radusVal',
+						width:180
+					},{
+						xtype: 'button',
+						id: 'pointBtn',
 						text: '위치선택',
 						enableToggle: true,
 						margin: '0 4 0 4',
-						handler: 'onAreaPointClick',
-			        }
-			    ]
+						handler: 'onAreaPointClick'
+					}
+				]
 			}]
 		}, {
 			title: '레이어',

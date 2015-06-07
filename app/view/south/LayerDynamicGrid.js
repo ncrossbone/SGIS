@@ -3,6 +3,7 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 	extend : 'Ext.grid.Panel',
 	
 	requires : [
+		'Ext.grid.column.Action',
 		'Sgis.store.LayerDynamicStore',
 		'Sgis.view.south.LayerDynamicGridController'
 	],
@@ -33,66 +34,7 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 	
 	tbar : {
 		xtype : 'toolbar',
-		items : [/*{
-			xtype : 'label',
-			text : '연도',
-			padding : '0 10 0 10'
-		}, {
-			itemId : 'btnYear',
-			xtype : 'cycle',
-			showText : true,
-			menu : {
-				items : [{
-					text : '2010',
-					checked : true
-				}, {
-					text : '2011'
-				}, {
-					text : '2012'
-				}, {
-					text : '2013'
-				}, {
-					text : '2014'
-				}]
-			}
-		}, {
-			xtype : 'label',
-			text : '분기',
-			padding : '0 10 0 30'
-		}, {
-			itemId : 'btnQuarter',
-			xtype : 'cycle',
-			showText : true,
-			menu : {
-				items : [{
-					text : '전체',
-					checked : true
-				}, {
-					text : '상반기'
-				}, {
-					text : '하반기'
-				}]
-			}
-		},'->', {
-			itemId : 'lblCountPerPage',
-			xtype : 'label',
-			text : '페이지 당 데이터 개수',
-			padding : '0 10 0 00'
-		}, {
-			itemId : 'btnCountPerPage',
-			xtype : 'cycle',
-			showText : true,
-			menu : {
-				items : [{
-					text : '15',
-					checked : true
-				}, {
-					text : '30'
-				}, {
-					text : '50'
-				}]
-			}
-		}*/]
+		items : []
 	},
 	
 	bbar : {
@@ -106,8 +48,8 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 	
 	getPageSize : function() {
 		var toolbar = this.down(' toolbar');
-		var pageSize = toolbar.down('#btnCountPerPage').getText();
-		return parseInt(pageSize);
+		var pageCountComp = toolbar.down('#btnCountPerPage');
+		return parseInt(pageCountComp ? pageCountComp.getText() : '15');
 	},
 	
 	bindPagingToolbar : function(store) {
@@ -116,6 +58,7 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 	},
 	
 	refreshGrid : function(result) {
+		console.log(result);
 		this.reconfigureSearchForm(result);
 		this.reconfigureGrid(result);
 	},
@@ -124,15 +67,18 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 	 * Reconfigure search form
 	 */
 	reconfigureSearchForm : function(result) {
-		
-		var filters = result.filter;
-		if(!filters || filters.length == 0) {
-			return;
-		}
-		
+
 		// remove previous items
 		var toolbar = this.down(' toolbar');
 		var isFirst = toolbar.items.length > 0 ? false : true;
+		var filters = result.filter;
+		
+		if(!filters || filters.length == 0) {
+			if(isFirst) {
+				this.addDefaultToolbarItem(toolbar);
+			}
+			return;
+		}
 		
 		// 1. 처음 툴바를 구성하는 것이라면 모든 필터 컴포넌트를 추가 
 		if(isFirst) {
@@ -140,13 +86,13 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 			for(var i = 0 ; i < filters.length ; i++) {
 				var filter = filters[i];
 				var filterName = '';
-				var filterValues = [];
 			
 				for(var prop in filter) {
 					filterName = prop;
-					filterValues = filter[filterName];
 				}
-			
+				
+				// 필터값을 데이터로 부터 추출한다.
+				var filterValues = this.extractFilterValues(filterName, result.datas);
 				var filterLabel = this.newFilterLabel(filterName);
 				var filterItems = [];
 				for(var j = 0 ; j < filterValues.length ; j++) {
@@ -160,33 +106,7 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 				toolbar.add(filterComp);
 			}
 			
-			// add separator
-			toolbar.add('->');
-			
-			// add count per page label
-			toolbar.add({
-				itemId : 'lblCountPerPage',
-				xtype : 'label',
-				text : '페이지 당 데이터 개수',
-				padding : '0 10 0 00'
-			});
-			
-			// add count per page comp
-			toolbar.add({
-				itemId : 'btnCountPerPage',
-				xtype : 'cycle',
-				showText : true,
-				menu : {
-					items : [{
-						text : '15',
-						checked : true
-					}, {
-						text : '30'
-					}, {
-						text : '50'
-					}]
-				}
-			});
+			this.addDefaultToolbarItem(toolbar);
 			
 		// 2. 처음 툴바를 구성하는 것이 아니라면 필터 값만 변경
 		} else {
@@ -209,6 +129,44 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 				}
 			}
 		}
+	},
+	
+	addDefaultToolbarItem : function(toolbar) {
+		// add separator
+		toolbar.add('->');	
+		
+		// excel export 버튼 
+		toolbar.add({
+			itemId : 'export',
+			xtype : 'button',
+			text : '내려 받기',
+			handler : 'exportExcel'
+		});
+		
+		// add count per page label
+		toolbar.add({
+			itemId : 'lblCountPerPage',
+			xtype : 'label',
+			text : '페이지 당 데이터 개수',
+			padding : '0 10 0 10'
+		});
+		
+		// add count per page comp
+		toolbar.add({
+			itemId : 'btnCountPerPage',
+			xtype : 'cycle',
+			showText : true,
+			menu : {
+				items : [{
+					text : '15',
+					checked : true
+				}, {
+					text : '30'
+				}, {
+					text : '50'
+				}]
+			}
+		});
 	},
 	
 	newFilterLabel : function(filterName) {
@@ -252,13 +210,55 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 	
 	reconfigureDynamicGrid : function(headers, dataList) {
 		var columns = [];
+		var headerConut = headers.length;
 		
-		for(var i = 0 ; i < headers.length ; i++) {
+		for(var i = 0 ; i < headerConut ; i++) {
+			
+			// 첫 컬럼에 row numberer 추가 
+			if(i == 0) {
+				columns.push({
+					xtype : 'rownumberer',
+					text : '#',
+					dataIndex : 'no',
+					width : 50
+				})
+			}
+			
 			columns.push({
 				text : headers[i].text,
 				dataIndex : headers[i].dataIndex,
+				hidden : headers[i].hidden,
 				flex : 1
 			})
+			
+			// 마지막 컬럼에 버튼 두 개 추가
+			if(i == headerConut - 1) {
+				columns.push({
+					text: '',
+					align: 'center',
+					xtype: 'widgetcolumn',
+					dataIndex: '',
+					width: 80,
+					widget: {
+						xtype: 'button',
+						text: '지점상세',
+						handler: 'onBranchDetail'
+					}
+				});
+				
+				columns.push({
+					text: '',
+					align: 'center',
+					xtype: 'widgetcolumn',
+					dataIndex: '',
+					width: 60,
+					widget: {
+						xtype: 'button',
+						text: '관정',
+						handler: 'onWellDetail'
+					}
+				});
+			}
 		}
 		
 		var store = this.createDynamicStore(columns, dataList);
@@ -321,10 +321,11 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 		var headers = [];
 		
 		for(var i = 0 ; i < fields.length ; i++) {
+			var hidden = fields[i].hasOwnProperty('flag');
 			var header = {
 				text: fields[i].fnm,
 				dataIndex: fields[i].fid,
-				hidden: (fields[i].flag === false) ? true : false
+				hidden: hidden
 			};
 			
 			headers.push(header);
@@ -360,5 +361,19 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 		}
 		
 		return dataList;
+	},
+	
+	extractFilterValues : function(filterField, dataList) {
+		var filterValues = [];
+		for(var i = 0 ; i < dataList.length ; i++) {
+			var data = dataList[i];
+			var filterData = data[filterField];
+			if(filterData && !Ext.Array.contains(filterValues, filterData)) {
+				filterValues.push(filterData);
+			}
+		}
+		
+		Ext.Array.sort(filterValues);
+		return filterValues;
 	}
 });

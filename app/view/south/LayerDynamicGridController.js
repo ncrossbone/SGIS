@@ -42,7 +42,21 @@ Ext.define('Sgis.view.south.LayerDynamicGridController', {
 	},
 	
 	dataGridSelect: function(grid, record, item, index, e, eOpts) {
-		//SGIS.msg.alert('Layer : ' + this.getView().layerId + ', Object Id : ' + record.get('OBJECTID') + ', Event : dataGridSelect');
 		Sgis.getApplication().fireEvent('dataGridSelect', this.getView().layerId, record);
+	},
+	
+	exportExcel: function(button, event, eOpts) {
+		var layerId = this.getView().layerId;
+		SGIS.msg.alert('export layer : ' + layerId);
+	},
+	
+	onBranchDetail: function(button, event, eOpts) {
+		var record = button.getWidgetRecord();
+		SGIS.msg.alert('지점상세보기 : OBJECTID : ' + record.get('OBJECTID'));
+	},
+	
+	onWellDetail: function(button, event, eOpts) {
+		var record = button.getWidgetRecord();
+		SGIS.msg.alert('관정보기 : OBJECTID : ' + record.get('OBJECTID'));
 	}
 });

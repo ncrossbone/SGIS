@@ -47,32 +47,39 @@ Ext.define('Sgis.view.north.North', {
 			items: [{
 				xtype: 'button',
 				text: '전체',
-				handler: 'onClickAll'
+				handler: 'onClickAll',
+				iconCls: 'menu_overview'
 			},  {
 				xtype: 'button',
 				text: '이전',
-				handler: 'onClickPrev'
+				handler: 'onClickPrev',
+				iconCls: 'menu_prev'
 			}, {
 				xtype: 'button',
 				text: '다음',
-				handler: 'onClickNext'
+				handler: 'onClickNext',
+				iconCls: 'menu_next'
 			}, {
 				xtype: 'button',
 				text: '측정',
-				handler: 'onClickMeasure'
+				handler: 'onClickMeasure',
+				iconCls: 'menu_measure'
 			}, {
 				xtype: 'button',
 				text: '인쇄',
-				handler: 'onClickPrint'
+				handler: 'onClickPrint',
+				iconCls: 'menu_print'
 			}, {
 				xtype: 'button',
 				text: '저장',
-				handler: 'onClickSave'
+				handler: 'onClickSave',
+				iconCls: 'menu_save'
 			}, {
 				xtype: 'button',
 				text: '흑백',
 				handler: 'onClickGray',
-				enableToggle: true
+				enableToggle: true,
+				iconCls: 'menu_gray'
 			},'->', {
 				id: 'mapmode',
 				xtype: 'cycle',
@@ -89,7 +96,8 @@ Ext.define('Sgis.view.north.North', {
 			}, '->', {
 				xtype: 'button',
 				text: '설정',
-				handler: 'onClickSetting'
+				handler: 'onClickSetting',
+				iconCls: 'menu_setting'
 			}]
 		}]
 	}]
