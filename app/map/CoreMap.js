@@ -57,6 +57,7 @@ Ext.define('Sgis.map.CoreMap', {
   		         "esri/symbols/Font",
   		         "esri/symbols/TextSymbol",
   		         "esri/tasks/AreasAndLengthsParameters",
+  		         "esri/tasks/LengthsParameters",
   		         "dijit/layout/BorderContainer",
   		         "dijit/layout/ContentPane",
   		         "dojox/uuid/generateRandomUuid",
@@ -209,15 +210,33 @@ Ext.define('Sgis.map.CoreMap', {
 		me.map.isPan = false;
 	},
 	
+	lengthMeasureReady:function(unit, callback, scope){
+		var me = this;
+		me.map.graphics.clear();
+		me.unit = unit;
+		me.measureCallback = callback;
+		me.measureScope = scope;
+		me.toolbar.activate('polyline');
+		me.map.setMapCursor("default");
+		me.map.isPan = false;
+	},
+	
+	pointMeasureReady:function(unit, callback, scope){
+		var me = this;
+		me.map.graphics.clear();
+		me.unit = unit;
+		me.measureCallback = callback;
+		me.measureScope = scope;
+		me.toolbar.activate('point');
+		me.map.setMapCursor("default");
+		me.map.isPan = false;
+	},
+	
 	measure:function(event){
 		var me = this;
 		me.toolbar.deactivate();
 		me.map.isPan = true;
 		
-		var polygon = new esri.geometry.Polygon(event);
-		var graphic = new esri.Graphic(polygon, me.simpleFillSymbol);
-		
-		me.map.graphics.add(graphic);
 		dojo.connect(me.map.graphics, "onClick", function(event){
         	if(event.graphic.img && event.graphic.img =='btn_close' && event.graphic.geometry.uuid){
         		me.map.graphics.clear();
@@ -229,22 +248,45 @@ Ext.define('Sgis.map.CoreMap', {
         if(event.type=='polygon'){
         	var finalRing = event.rings[0][event.rings[0].length-1];
     		point = new esri.geometry.Point(finalRing[0], finalRing[1], new esri.SpatialReference({"wkid":102100}));
-        }else{
-    		point = new esri.geometry.Point(event.xmax, event.ymax, new esri.SpatialReference({"wkid":102100}));
+    		
+    		var polygon = new esri.geometry.Polygon(event);
+    		var graphic = new esri.Graphic(polygon, me.simpleFillSymbol);
+    		me.map.graphics.add(graphic);
+    		
+    		var params = new esri.tasks.AreasAndLengthsParameters();
+		    params.polygons  = [ polygon ];
+		    params.areaUnit = esri.tasks.GeometryService[me.unit]
+		    me.geometryService.areasAndLengths(params, function(result){
+		    	me.measureCallback.apply(me.measureScope, [result]);
+		  	});
+    		
+        }else if(event.type=='polyline'){
+    		point = new esri.geometry.Point(event.paths[0][0][0], event.paths[0][0][1], new esri.SpatialReference({"wkid":102100}));
+    		var polyline = new esri.geometry.Polyline(event);
+    		var graphic = new esri.Graphic(polyline, me.smpLineSymbol);
+    		
+    		me.map.graphics.add(graphic);
+    		var params = new esri.tasks.LengthsParameters();
+		    params.polylines  = [ polyline ];
+		    params.lengthUnit = esri.tasks.GeometryService[me.unit]
+		    
+		    me.geometryService.lengths(params, function(result){
+		    	me.measureCallback.apply(me.measureScope, [result]);
+		  	});
+        }else if(event.type=='point'){
+        	var params = new esri.tasks.ProjectParameters();
+    	    params.geometries = [event];
+    	    params.outSR = new esri.SpatialReference({wkid: 4326});
+    	    me.geometryService.project(params, function(result) { 
+    	    	me.measureCallback.apply(me.measureScope, [result, me.unit]);
+    		});
+    		point = event;
         }
+        
 		point.uuid = dojo.dojox.uuid.generateRandomUuid();
 		var delGraphic = new esri.Graphic(point, symbol);
 		delGraphic.img = 'btn_close'; 
 		me.map.graphics.add(delGraphic);
-		
-		
-		var params = new esri.tasks.AreasAndLengthsParameters();
-	    params.polygons  = [ polygon ]
-	    params.areaUnit = esri.tasks.GeometryService[me.unit]
-	    
-	    me.geometryService.areasAndLengths(params, function(result){
-	    	me.measureCallback.apply(me.measureScope, [result]);
-	  	});
 	},
 	
 	baseMapGrayExtentChange:function(){
