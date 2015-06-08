@@ -22,6 +22,8 @@ Ext.define('Sgis.Application', {
 
 	browser: null,
 	
+	fuckBrowser:false,
+	
 	meUrl:'http://' + window.location.hostname + ':' + window.location.port + '/',
 	proxyUrl:'http://' + window.location.hostname + ':' + window.location.port + '/sgis-war/proxy.jsp',
 	arcServiceUrl:'http://cetech.iptime.org:6080/arcgis',
@@ -97,11 +99,21 @@ Ext.define('Sgis.Application', {
             if( trident[1] == "7.0" ) me.browser = "IE" + 11 ;
             if( trident[1] == "6.0" ) me.browser = "IE" + 10;
             if( trident[1] == "5.0" ) me.browser = "IE" + 9;
-            if( trident[1] == "4.0" ) me.browser = "IE" + 8;
+            if( trident[1] == "4.0" ) {
+            	me.browser = "IE" + 8;
+            	me.fuckBrowser = true;
+            }
         }
          
         //IE 7...
-        if( navigator.appName == 'Microsoft Internet Explorer' ) me.browser = "IE" + 7;
+        if( navigator.appName == 'Microsoft Internet Explorer' ) {
+        	me.browser = "IE" + 7;
+        	me.fuckBrowser = true;
+        }
+        
+        if(me.browser){
+        	return;
+        }
          
         /*
         var re = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");

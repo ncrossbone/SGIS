@@ -414,7 +414,7 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 			}
 			feature.geometry.spatialReference = new esri.SpatialReference({"wkid":102100});
 			var extent = esri.geometry.Polygon(feature.geometry).getExtent();
-			if(extent.xmin){
+			if(extent && extent.xmin){
 				if(extent.xmin<xmin){
 					xmin = extent.xmin;
 				}

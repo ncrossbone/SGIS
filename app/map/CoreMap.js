@@ -66,38 +66,41 @@ Ext.define('Sgis.map.CoreMap', {
 		        	esri.config.defaults.io.proxyUrl = Sgis.app.proxyUrl;
 		    		esri.config.defaults.io.alwaysUseProxy = true;
 		    		esri.config.defaults.io.postLength = 1;
-		        	me.map = new esri.Map('_mapDiv_', {
-		        		isDoubleClickZoom:false,
-		    	     	isPan:true,
-		    	 		logo:false,
-		    	 		slider: true,
-		    	 		autoResize: true
-		        	});
-		        	me.baseMapInit();
-		        	me.map.setLevel(1+6);
-		        	me.geometryService = new esri.tasks.GeometryService(Sgis.app.arcServiceUrl + "/rest/services/Utilities/Geometry/GeometryServer");
+		    		Ext.defer(function() {
+	    				me.map = new esri.Map('_mapDiv_', {
+			        		isDoubleClickZoom:false,
+			    	     	isPan:true,
+			    	 		logo:false,
+			    	 		slider: true,
+			    	 		autoResize: true
+			        	});
+			        	me.baseMapInit();
+			        	me.map.setLevel(1+6);
+			        	me.geometryService = new esri.tasks.GeometryService(Sgis.app.arcServiceUrl + "/rest/services/Utilities/Geometry/GeometryServer");
+			        	
+			        	Ext.Loader.loadScript({url:'app/map/toolbar/CustomDraw.js', onLoad:function(){
+			        		me.dynamicLayerAdmin = Ext.create('Sgis.map.DynamicLayerAdmin', me.map);
+				        	me.searchLayerAdmin = Ext.create('Sgis.map.SearchLayerAdmin', me.map, me.geometryService);
+			        		me.toolbar = new ash.map.toolbar.CustomDraw(me.map, {showTooltips:false}, true, me.map.graphics);
+				        	dojo.connect(me.toolbar, "onDrawEnd", function(event){
+				    			me.map.setMapCursor("default");
+				    			me.measure(event);
+				    		});
+			        	}, onError:function(){}});
+			        	
+			        	Ext.Loader.loadScript({url:'app/map/task/CustomPrintTask.js', onLoad:function(){
+			        		me.printTask = new ash.map.task.CustomPrintTask(me.map, "_mapDiv_", Sgis.app.arcServiceUrl);
+			        		dojo.connect(me.printTask, "onComplete", function(event){	
+			        			SGIS.loading.finish();
+			        		});
+			        	}, onError:function(){}});
+			        	
+			        	me.smpLineSymbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([0,0,255,0.8]), 2);
+			    		me.simpleFillSymbol= new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, me.smpLineSymbol, new dojo.Color([0,0,255,0.1]));
+			    		me.mapEventDefine()
+			        	Sgis.getApplication().coreMap = me;
+		    		}, 1, this);
 		        	
-		        	Ext.Loader.loadScript({url:'app/map/toolbar/CustomDraw.js', onLoad:function(){
-		        		me.dynamicLayerAdmin = Ext.create('Sgis.map.DynamicLayerAdmin', me.map);
-			        	me.searchLayerAdmin = Ext.create('Sgis.map.SearchLayerAdmin', me.map, me.geometryService);
-		        		me.toolbar = new ash.map.toolbar.CustomDraw(me.map, {showTooltips:false}, true, me.map.graphics);
-			        	dojo.connect(me.toolbar, "onDrawEnd", function(event){
-			    			me.map.setMapCursor("default");
-			    			me.measure(event);
-			    		});
-		        	}, onError:function(){}});
-		        	
-		        	Ext.Loader.loadScript({url:'app/map/task/CustomPrintTask.js', onLoad:function(){
-		        		me.printTask = new ash.map.task.CustomPrintTask(me.map, "_mapDiv_", Sgis.app.arcServiceUrl);
-		        		dojo.connect(me.printTask, "onComplete", function(event){	
-		        			SGIS.loading.finish();
-		        		});
-		        	}, onError:function(){}});
-		        	
-		        	me.smpLineSymbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([0,0,255,0.8]), 2);
-		    		me.simpleFillSymbol= new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, me.smpLineSymbol, new dojo.Color([0,0,255,0.1]));
-		    		me.mapEventDefine()
-		        	Sgis.getApplication().coreMap = me;
         });
     },
     
