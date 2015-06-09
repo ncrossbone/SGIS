@@ -40,9 +40,10 @@ Ext.define('Cmm.view.LoadingPopup', {
 	items: [{
 		xtype: 'image',
 		flex: 1,
+		id:'loadingImg',
 		margin: '25 45 0 45',
 		bind: {
-			src: 'resources/images/loader.gif'
+			//src: 'resources/images/loader.gif'
 		}
 	}, {
 		id: 'executeCancel',
@@ -57,6 +58,7 @@ Ext.define('Cmm.view.LoadingPopup', {
 		me.customStatus = true;
 		Ext.defer(function() {
 			if(me.customStatus){
+				Ext.getCmp('loadingImg').setBind({src: 'resources/images/loader.gif'});
 				me.show();
 			}
 		}, 1500, this);
@@ -65,6 +67,7 @@ Ext.define('Cmm.view.LoadingPopup', {
 	customHide: function(){
 		var me = this;
 		me.customStatus = false;
+		Ext.getCmp('loadingImg').setBind({src: 'resources/images/loader.gifxxx'});
 		me.hide();
 	}
 });

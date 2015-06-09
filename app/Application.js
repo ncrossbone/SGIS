@@ -12,6 +12,7 @@ Ext.require(['Sgis.CommonModule']);
 * Ext.application(). This is the ideal place to handle application launch and initialization
 * details.
 */
+
 Ext.define('Sgis.Application', {
 
 	extend: 'Ext.app.Application',
@@ -67,6 +68,7 @@ Ext.define('Sgis.Application', {
 	],
 
 	launch: function () {
+		$('#_loadingDiv_').remove();
 		var main = Ext.widget('app-main');
 		
 		main.add({
