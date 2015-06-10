@@ -5,7 +5,8 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 	requires : [
 		'Ext.grid.column.Action',
 		'Sgis.store.LayerDynamicStore',
-		'Sgis.view.south.LayerDynamicGridController'
+		'Sgis.view.south.LayerDynamicGridController',
+		'Sgis.view.south.popup.BranchInfoPopup'
 	],
 	
 	xtype : 'layer_dynamic_grid',
@@ -238,7 +239,7 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 					align: 'center',
 					xtype: 'widgetcolumn',
 					dataIndex: '',
-					width: 80,
+					width: 90,
 					widget: {
 						xtype: 'button',
 						text: '지점상세',
@@ -246,18 +247,18 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 					}
 				});
 				
-				columns.push({
-					text: '',
-					align: 'center',
-					xtype: 'widgetcolumn',
-					dataIndex: '',
-					width: 60,
-					widget: {
-						xtype: 'button',
-						text: '관정',
-						handler: 'onWellDetail'
-					}
-				});
+//				columns.push({
+//					text: '',
+//					align: 'center',
+//					xtype: 'widgetcolumn',
+//					dataIndex: '',
+//					width: 60,
+//					widget: {
+//						xtype: 'button',
+//						text: '관정',
+//						handler: 'onWellDetail'
+//					}
+//				});
 			}
 		}
 		

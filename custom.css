@@ -115,3 +115,8 @@
 .symbol_20 {
     background-image: url(resources/images/layerIcon/symbol_20.png) !important;
 }
+
+.popLoading {position:absolute; left:50%; top:50%; margin:-88px 0 0 -119px; width:234px; height:172px; border:2px solid #3d4651; background:#fff; text-align:center; z-index:999999999999;}
+.popLoading p.dataStop {font-size:14px; color:#9c9a9c; font-weight:bold;}
+.popLoading p.stopBtn {padding-top:8px;}
+.popLoading a.btn {position:relative; display:inline-block; height:26px; font-size:12px; line-height:12px; border:1px solid #bbc1c7; padding:6px 10px 0 10px; color:#333; background:#fff; text-align:center; cursor:pointer; vertical-align:middle; letter-spacing:-1px;}

@@ -1,73 +1,65 @@
 Ext.define('Cmm.view.LoadingPopup', {
-	
-	extend: 'Ext.window.Window',
-	
-	requires : ['Cmm.view.LoadingPopupController'],
-	
 	xtype: 'cmm_loadingPopup',
-
-	height: 180,
 	
-	width: 200,
+	html: '<div class="popLoading" id="viewLoading" style="z-index:99999;">' +
+		  '	<p class="dataStop">처리중입니다.</p>' +
+		  '	<p id="loadingP"></p>' +
+		  '	<p class="stopBtn"><a href="javascript:void(0)" id="executeCancel" class="btn">' +
+		  '		<img src="resources/images/ico_stop.png" alt="" /> 실행중지</a>' +
+		  '	</p>' + 
+		  '</div>',
 	
-	customStatus:false,
-	
-	controller: 'cmm_loadingPopup',
-	
-	config: {
-	    modal: true,
-	    header: false,
-       	border: false,
-       	closable: false,
-       	draggable: false
-	},
-	
-	layout: {
-		type: 'vbox',
-		align: 'stretch'
-	},
-	
-	listeners: {
-        show:function() {
-        	Ext.defer(function() {
-    			if(!this.customStatus){
-    				this.hide();
-    			}
-    		}, 1000, this);
-        }
-    },
-	
-	items: [{
-		xtype: 'image',
-		flex: 1,
-		id:'loadingImg',
-		margin: '25 45 0 45',
-		bind: {
-			//src: 'resources/images/loader.gif'
-		}
-	}, {
-		id: 'executeCancel',
-		xtype: 'button',
-		text: '실행중지',
-		margin: '25 35 25 35',
-		handler: 'executeCancelClick'
-	}],
-	
-	customShow: function(){
+   constructor:function(){
+	   var me = this;
+	   document.getElementById('_gooBody_').addEventListener('click', me.clickCheck, true);
+	   $('body').append(me.html);
+	   $('#executeCancel').off('click').on('click' ,function(){
+		   SGIS.loading.abortFinish();
+		   me.customHide();
+	   });
+   },
+		  
+   timerId:null,
+   
+   customShow: function(){
 		var me = this;
-		me.customStatus = true;
-		Ext.defer(function() {
-			if(me.customStatus){
-				Ext.getCmp('loadingImg').setBind({src: 'resources/images/loader.gif'});
-				me.show();
+		$('#loadingP').html('<img id="loadingImg" src="resources/images/loader2.gif" alt=""/>');
+		if($('#viewLoading').css('display')=="none"){
+			$('#viewLoading').css({opacity: 0});
+			$('#viewLoading').css({'box-shadow': '0px 0px 0px 0px rgba(0, 0, 0, 0)'});
+			$('#viewLoading').show();
+			if(me.timerId){
+				window.clearInterval(me.timerId);
 			}
-		}, 1500, this);
+			if(me.timerId2){
+				window.clearInterval(me.timerId2);
+			}
+			me.timerId = window.setInterval(function(){
+				$('#viewLoading').css({opacity: 1});
+				window.clearInterval(me.timerId);
+			}, 1500);
+			me.timerId2 = window.setInterval(function(){
+				$('#viewLoading').css({'box-shadow': '0px 0px 3200px 3200px rgba(0, 0, 30, 0.4)'});
+				window.clearInterval(me.timerId2);
+			}, 2500);
+		}
 	},
 	
 	customHide: function(){
 		var me = this;
-		me.customStatus = false;
-		Ext.getCmp('loadingImg').setBind({src: 'resources/images/loader.gifxxx'});
-		me.hide();
+		$('#viewLoading').hide();
+		$('#loadingP').html('');
+	},
+	
+	clickCheck:function(event){
+		if($('#viewLoading').css('display')!="none" && event.target.id!="executeCancel"){
+			if(event.stopPropagation) {
+			    event.stopPropagation();
+			    event.returnValue = false;
+			} else {
+			    event.returnValue = false;
+			}
+			alert("실행중입니다...")
+		}
 	}
 });
