@@ -5,6 +5,7 @@ Ext.define('Sgis.view.south.popup.BranchInfoPopup', {
 	controller : 'sourth_branch_info',
 	
 	requires : [
+	            'Sgis.view.south.popup.InfoResult',
 	    		'Ext.chart.*'
 	    		],
 	title: '지점정보',
@@ -16,31 +17,7 @@ Ext.define('Sgis.view.south.popup.BranchInfoPopup', {
 		xtype : 'tabpanel',
 		items: [{
 			title: '지점정보',
-			layout: 'column',
-		    
-		    defaults: {
-		        layout: 'form',
-		        xtype: 'container',
-		        defaultType: 'textfield',
-		        style: 'width: 50%',
-		        padding: '4 4 4 4'
-		    },
-		    
-		    items: [{
-		        items: [
-		            { fieldLabel: 'First Name' },
-		            { fieldLabel: 'Last Name' },
-		            { fieldLabel: 'Phone Number' },
-		            { fieldLabel: 'Email Address' }
-		        ]
-		    }, {
-		        items: [
-		            { fieldLabel: 'Street Address 1' },
-		            { fieldLabel: 'Street Address 2' },
-		            { fieldLabel: 'City, State' },
-		            { fieldLabel: 'ZIP code' }
-		        ]
-		    }]
+			xtype:'sourth_branch_infoResult'
 			
 		},{
 			title: '측정결과',
@@ -168,8 +145,5 @@ Ext.define('Sgis.view.south.popup.BranchInfoPopup', {
 		        style: 'background: #ccc;'
 			}]
 		}]
-	}],
-	
-	
-	
+	}]
 });

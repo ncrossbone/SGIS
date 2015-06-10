@@ -59,7 +59,6 @@ Ext.define('Cmm.view.LoadingPopup', {
 			} else {
 			    event.returnValue = false;
 			}
-			alert("실행중입니다...")
 		}
 	}
 });
