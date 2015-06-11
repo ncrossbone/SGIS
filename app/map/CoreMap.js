@@ -292,16 +292,31 @@ Ext.define('Sgis.map.CoreMap', {
 		me.map.graphics.add(delGraphic);
 	},
 	
+	timer:null,
+	timerUUID:null,
+	
 	baseMapGrayExtentChange:function(){
 		var me = this;
 		if(me.backAndWhite && Sgis.getApplication().browser!='Chrome' && Sgis.getApplication().browser!='Opera'){
-			var imgs = Ext.query('.layerTile');
-			for(var i=0; i<imgs.length; i++){
-				imgs[i].src = me.grayImage(imgs[i]);
-			}
+			if(me.timer){
+				window.clearInterval(me.timer);
+			}	
+			me.timer = window.setInterval(function(){
+				me.timerUUID= dojo.dojox.uuid.generateRandomUuid();
+				var imgs = Ext.query('.layerTile');
+				for(var i=0; i<imgs.length; i++){
+					var res = me.grayImage(imgs[i], me.timerUUID+"");
+					if(!res){
+						window.clearInterval(me.timer);
+						return;
+					}else{
+						imgs[i].src = res;
+					}
+				}
+				window.clearInterval(me.timer);
+			}, 100);
 		}
 	},
-	
 	
 	baseMapGray:function(mode){
 		var me = this;
@@ -338,10 +353,13 @@ Ext.define('Sgis.map.CoreMap', {
 		});
 	},
 	
-	grayImage:function(imgObj){
+	grayImage:function(imgObj, callUUID){
+		var me = this;
+		if(callUUID!=me.timerUUID){
+			return false;
+		}
 		var canvas = document.createElement('canvas');
 	    var canvasContext = canvas.getContext('2d');
-	    console.log("xxxx")
 	    var imgW = imgObj.width;
 	    var imgH = imgObj.height;
 	    canvas.width = imgW;

@@ -13,6 +13,7 @@ Ext.define('Cmm.view.LoadingPopup', {
 	   var me = this;
 	   document.getElementById('_gooBody_').addEventListener('click', me.clickCheck, true);
 	   $('body').append(me.html);
+	   $('#viewLoading').css({top:'45%'});
 	   $('#executeCancel').off('click').on('click' ,function(){
 		   SGIS.loading.abortFinish();
 		   me.customHide();
