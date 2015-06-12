@@ -8,12 +8,13 @@ Ext.define('Cmm.view.LoadingPopup', {
 		  '		<img src="resources/images/ico_stop.png" alt="" /> 실행중지</a>' +
 		  '	</p>' + 
 		  '</div>',
+		  
+   height:null,
 	
    constructor:function(){
 	   var me = this;
 	   document.getElementById('_gooBody_').addEventListener('click', me.clickCheck, true);
 	   $('body').append(me.html);
-	   $('#viewLoading').css({top:'45%'});
 	   $('#executeCancel').off('click').on('click' ,function(){
 		   SGIS.loading.abortFinish();
 		   me.customHide();
@@ -24,6 +25,12 @@ Ext.define('Cmm.view.LoadingPopup', {
    
    customShow: function(){
 		var me = this;
+		
+		if(!me.height){
+			me.height = $(window).height()/2-$('#viewLoading').height()/2 + 40;
+			$('#viewLoading').css({'top':me.height});
+		}
+		
 		$('#loadingP').html('<img id="loadingImg" src="resources/images/loader2.gif" alt=""/>');
 		if($('#viewLoading').css('display')=="none"){
 			$('#viewLoading').css({opacity: 0});

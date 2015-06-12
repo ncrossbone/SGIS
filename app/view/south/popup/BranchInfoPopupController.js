@@ -11,6 +11,6 @@ Ext.define('Sgis.view.south.popup.BranchInfoPopupController', {
 	},
 	
 	paramschangeHandler:function(e){
-		
+		this.getView().makeChild();
 	}
 });

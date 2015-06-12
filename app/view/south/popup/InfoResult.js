@@ -1,28 +1,43 @@
 Ext.define('Sgis.view.south.popup.InfoResult', {
-    extend: 'Ext.view.View',
+    extend: 'Ext.container.Container',
     xtype: 'sourth_branch_infoResult',
     alias: 'widget.sourth_branch_infoResult',
     requires : [
-                'Sgis.view.south.popup.InfoResultViewModel'	
+                'Sgis.view.south.popup.InfoResultViewModel',
+                'Sgis.view.south.popup.InfoResultController'	
 	],
     
 	viewModel: 'sourth_branch_infoResult',
+	controller: 'sourth_branch_infoResult',
 	
-	bind: {
-        data: {
-        	title: '{title}'
+	listeners: {
+    	afterrender: 'afterrenderHandler'
+    },
+    
+    params:null,
+	
+	padding:'4, 4, 4, 4',
+	layout: {
+        type: 'table',
+        columns: 2,
+        tableAttrs: {
+            style: {
+                width: '100%',
+            }
         }
     },
     
-    tpl: new Ext.Template(
-    		'<div class="main_dashboard">',
-            '<div class="tab_bg">',
-            '<ul class="dashboard_tab_menu">',
-            '<li><a href="#" class="on">ss:{title}</a></li>',
-            '<li><a href="#" class="">탭2번</a></li>',
-            '<li><a href="#" class="">탭3번</a></li>',
-            '<li><a href="#" class="">탭4번</a></li>',
-            '</div>',
-            '</div>'
-    )
+    addItem:function(){
+    	this.add({
+            xtype: 'displayfield',
+            fieldLabel: 'Home',
+            name: 'home_score',
+            style: 'margin-bottom: -1px; border: 1px solid #CCCCCC', 
+            labelStyle:'padding-left:4px; background-color: #eeeeee',
+            labelWidth:80,
+            fieldStyle:'padding-left:4px',
+            width:420, height:30,
+            bind:{value:'{title}'},
+        });
+    }
 });

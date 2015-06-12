@@ -16,6 +16,12 @@ Ext.define('Sgis.view.north.NorthController', {
 		'Sgis.view.north.measure.MeasureWindow'
 	],
 	
+	constructor: function(map) {
+		var me = this;
+		me.callParent();
+		Sgis.getApplication().addListener('mapExtentChange', me.mapExtentChangeHandler, me);
+    },
+	
 	onClickAll: function () {
 		Sgis.getApplication().coreMap.fullExtentMove();
 	},
@@ -56,5 +62,11 @@ Ext.define('Sgis.view.north.NorthController', {
 		var content = Ext.getCmp('content');
 		var layout = content.getLayout();
 		layout.setActiveItem(1);
+	},
+	
+	mapExtentChangeHandler:function(){
+		if(Sgis.getApplication().browser!='Chrome' && Sgis.getApplication().browser!='Opera'){
+			Ext.getCmp('grayBtn').setPressed(false);
+		}
 	}
 });

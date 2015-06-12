@@ -1,0 +1,9 @@
+Ext.define('Sgis.view.south.popup.InfoResultController', {
+    extend: 'Ext.app.ViewController',
+    alias: 'controller.sourth_branch_infoResult',
+    
+    afterrenderHandler:function(){
+    	this.getView().addItem(); 
+    	this.getView().getViewModel().arcSearch();
+    }
+});

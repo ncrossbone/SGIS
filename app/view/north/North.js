@@ -79,7 +79,8 @@ Ext.define('Sgis.view.north.North', {
 				text: '흑백',
 				handler: 'onClickGray',
 				enableToggle: true,
-				iconCls: 'menu_gray'
+				iconCls: 'menu_gray',
+				id:'grayBtn'
 			},'->', {
 				id: 'mapmode',
 				xtype: 'cycle',

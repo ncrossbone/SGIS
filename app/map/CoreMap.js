@@ -115,9 +115,7 @@ Ext.define('Sgis.map.CoreMap', {
         		me.extentUnReIdx = me.extentReg.length-1;
     		}
     		me.extentRegAble = true;
-    		if(me.backAndWhite && Sgis.getApplication().browser!='Chrome' && Sgis.getApplication().browser!='Opera'){
-    			me.baseMapGrayExtentChange();
-    		}
+    		Sgis.getApplication().fireEvent('mapExtentChange', event);
 		});
     },
     
@@ -295,7 +293,7 @@ Ext.define('Sgis.map.CoreMap', {
 	timer:null,
 	timerUUID:null,
 	
-	baseMapGrayExtentChange:function(){
+	baseMapGrayCall:function(){
 		var me = this;
 		if(me.backAndWhite && Sgis.getApplication().browser!='Chrome' && Sgis.getApplication().browser!='Opera'){
 			if(me.timer){

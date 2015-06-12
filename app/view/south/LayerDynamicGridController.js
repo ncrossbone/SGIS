@@ -53,7 +53,7 @@ Ext.define('Sgis.view.south.LayerDynamicGridController', {
 	onBranchDetail: function(button, event, eOpts) {
 		var record = button.getWidgetRecord();
 		//SGIS.msg.alert('지점상세보기 : OBJECTID : ' + record.get('OBJECTID'));
-		SGIS.popup('Sgis.view.south.popup.BranchInfoPopup', {layerId:this.getView().layerId, record:record});
+		SGIS.popup('Sgis.view.south.popup.BranchInfoPopup', {layerId:this.getView().layerId, layerName:this.getView().title, record:record});
 	},
 	
 	onWellDetail: function(button, event, eOpts) {
