@@ -7,24 +7,25 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 	targetGraphicLayer:null,
 	highlightGraphicLayer:null,
 	layer1Url: null,
-	//layer2Url: null,
 	area1Arr:[],
 	timerId:null,
 	spSearchBool:true,
 	layers:[],
-	layerDisplayFiledInfo:{},
 	smpLineSymbol:null,
 	simpleFillSymbol:null,
 	geometryService:null,
 	buffRadus:null,
+	
+	layerDisplayFiledInfo:{},
+	layerBranchFiledInfo:{},
+	layerChartFiledInfo:{},
 	
 	constructor: function(map, geometryService) {
 		var me = this;
 		me.map = map;
 		me.geometryService = geometryService;
 		
-		me.layer1Url = Sgis.app.arcServiceUrl + '/rest/services/Layer1_new/MapServer';
-		//me.layer2Url = Sgis.app.arcServiceUrl + '/rest/services/Layer2/MapServer';
+		me.layer1Url = Sgis.app.coreMap.layerInfo.layer1Url;
 		
 		me.smpLineSymbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([0,0,255,0.8]), 2);
 		me.simpleFillSymbol= new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, me.smpLineSymbol, new dojo.Color([0,0,255,0.1]));
@@ -62,6 +63,8 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 		});
 		
 		me.getLayerDisplayFiledInfo();
+		me.getLayerBranchFiledInfo();
+		me.getLayerChartFiledInfo();
 		
 		Sgis.getApplication().addListener('searchLayerOnOff', me.searchLayerOnOfffHandler, me);
 		Sgis.getApplication().addListener('searchBtnClick', me.searchBtnClickfHandler, me);
@@ -195,13 +198,14 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 		});
     },
     
-    getLayerDisplayFiledInfo:function(){
+    getLayerDisplayFiledInfo:function(callback, scope){
 		var me = this;
 		var queryTask = new esri.tasks.QueryTask(me.layer1Url + "/17");
 		var query = new esri.tasks.Query();
 		query.returnGeometry = false;
 		query.where = "1=1";
 		query.outFields = ["*"];
+		SGIS.loading.execute();
 		queryTask.execute(query,  function(results){
 			var attr = results.features;
 			Ext.each(results.features, function(obj, index) {
@@ -212,9 +216,60 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 				}
 				me.layerDisplayFiledInfo[attr.ServiceID].push({fnm:attr.Grid_NM, fid:attr.Column_NM});
 			});
+			SGIS.loading.finish();
 		});
 		dojo.connect(queryTask, "onError", function(err) {
-			alert(err);
+			SGIS.loading.finish();
+		});
+	},
+	
+	getLayerBranchFiledInfo:function(callback, scope){
+		var me = this;
+		var queryTask = new esri.tasks.QueryTask(me.layer1Url + "/17");
+		var query = new esri.tasks.Query();
+		query.returnGeometry = false;
+		query.where = "1=1";
+		query.outFields = ["*"];
+		SGIS.loading.execute();
+		queryTask.execute(query,  function(results){
+			var attr = results.features;
+			Ext.each(results.features, function(obj, index) {
+				var attr = obj.attributes
+				if(!me.layerBranchFiledInfo[attr.ServiceID]){
+					me.layerBranchFiledInfo[attr.ServiceID] = [];
+					me.layerBranchFiledInfo[attr.ServiceID].push({fnm:"OBJECTID", fid:"OBJECTID", flag:false})
+				}
+				me.layerBranchFiledInfo[attr.ServiceID].push({fnm:attr.Grid_NM, fid:attr.Column_NM});
+			});
+			SGIS.loading.finish();
+		});
+		dojo.connect(queryTask, "onError", function(err) {
+			SGIS.loading.finish();
+		});
+	},
+	
+	getLayerChartFiledInfo:function(callback, scope){
+		var me = this;
+		var queryTask = new esri.tasks.QueryTask(me.layer1Url + "/17");
+		var query = new esri.tasks.Query();
+		query.returnGeometry = false;
+		query.where = "1=1";
+		query.outFields = ["*"];
+		SGIS.loading.execute();
+		queryTask.execute(query,  function(results){
+			var attr = results.features;
+			Ext.each(results.features, function(obj, index) {
+				var attr = obj.attributes
+				if(!me.layerChartFiledInfo[attr.ServiceID]){
+					me.layerChartFiledInfo[attr.ServiceID] = [];
+					me.layerChartFiledInfo[attr.ServiceID].push({fnm:"OBJECTID", fid:"OBJECTID", flag:false})
+				}
+				me.layerChartFiledInfo[attr.ServiceID].push({fnm:attr.Grid_NM, fid:attr.Column_NM});
+			});
+			SGIS.loading.finish();
+		});
+		dojo.connect(queryTask, "onError", function(err) {
+			SGIS.loading.finish();
 		});
 	},
 	

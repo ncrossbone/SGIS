@@ -10,7 +10,7 @@ Ext.define('Sgis.view.south.popup.BranchInfoPopup', {
 	    		],
 	title: 'none',
 	
-	height: 500,
+	height: 715,
 	width: 856,
 	
 	makeChild:function(){

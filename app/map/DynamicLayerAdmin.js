@@ -5,7 +5,7 @@ Ext.define('Sgis.map.DynamicLayerAdmin', {
 	constructor: function(map) {
         var me = this;
         me.map = map;
-        me.layer = new esri.layers.ArcGISDynamicMapServiceLayer(Sgis.app.arcServiceUrl + "/rest/services/Layer1_new/MapServer");
+        me.layer = new esri.layers.ArcGISDynamicMapServiceLayer(Sgis.app.coreMap.layerInfo.layer1Url);
 		me.layer.id = "DynamicLayer";
 		me.map.addLayer(me.layer);
 		me.layer.visible = true;
@@ -19,7 +19,7 @@ Ext.define('Sgis.map.DynamicLayerAdmin', {
 			SGIS.loading.finish();
 		});
 		
-		me.layer2 = new esri.layers.ArcGISDynamicMapServiceLayer(Sgis.app.arcServiceUrl + "/rest/services/Layer2/MapServer");
+		me.layer2 = new esri.layers.ArcGISDynamicMapServiceLayer(Sgis.app.coreMap.layerInfo.layer2Url);
 		me.layer2.id = "DynamicLayer2";
 		me.map.addLayer(me.layer2);
 		me.layer2.visible = true;

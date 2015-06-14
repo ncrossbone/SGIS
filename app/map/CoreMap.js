@@ -1,14 +1,12 @@
 Ext.define('Sgis.map.CoreMap', {
 	extend: 'Ext.Component',
-	
 	xtype: 'app-map-coreMap',
+	requires: [
+	   	    'Sgis.map.DynamicLayerAdmin',
+	   	    'Sgis.map.SearchLayerAdmin'
+	],
 	
 	html: "<div id='_mapDiv_' style='height:100%; width:100%;background-color: #ffffff;'></div>",
-	
-	requires: [
-	    'Sgis.map.DynamicLayerAdmin',
-	    'Sgis.map.SearchLayerAdmin'
-	],
 	
 	map:null,
 	dynamicLayerAdmin:null,
@@ -25,17 +23,21 @@ Ext.define('Sgis.map.CoreMap', {
 	printTask:null,
 	backAndWhite:false,
 	
-//	initComponent: function() {
-//		this.callParent();
-//	},
+	dynamicLayerAdmin:null,
+	searchLayerAdmin:null,
 	
 	onRender: function(){
 		this.callParent(arguments);
 		this.mapRendered();
 	},
 	
+	layerInfo:null,
+	
 	mapRendered: function(p){
         var me = this;
+        
+        me.layerInfo = {'layer1Url':Sgis.app.arcServiceUrl + '/rest/services/Layer1_new/MapServer',
+        				'layer2Url':Sgis.app.arcServiceUrl + '/rest/services/Layer2/MapServer'};
         
         require(["dojo/dom",
   		         "dojo/dom-attr",
@@ -412,5 +414,20 @@ Ext.define('Sgis.map.CoreMap', {
 		var me = this;
 		me.printTask.capture();
 		SGIS.loading.execute();
+	},
+	
+	getLayerDisplayFiledInfo:function(){
+		var me = this;
+		return me.searchLayerAdmin.layerDisplayFiledInfo;
+	},
+	
+	getLayerBranchFiledInfo:function(){
+		var me = this;
+		return me.searchLayerAdmin.layerBranchFiledInfo;
+	},
+	
+	getLayerChartFiledInfo:function(){
+		var me = this;
+		return me.searchLayerAdmin.layerChartFiledInfo;
 	}
 });

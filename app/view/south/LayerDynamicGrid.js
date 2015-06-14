@@ -59,7 +59,6 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 	},
 	
 	refreshGrid : function(result) {
-		console.log(result);
 		this.reconfigureSearchForm(result);
 		this.reconfigureGrid(result);
 	},

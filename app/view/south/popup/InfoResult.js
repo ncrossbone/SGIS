@@ -28,16 +28,19 @@ Ext.define('Sgis.view.south.popup.InfoResult', {
     },
     
     addItem:function(){
-    	this.add({
-            xtype: 'displayfield',
-            fieldLabel: 'Home',
-            name: 'home_score',
-            style: 'margin-bottom: -1px; border: 1px solid #CCCCCC', 
-            labelStyle:'padding-left:4px; background-color: #eeeeee',
-            labelWidth:80,
-            fieldStyle:'padding-left:4px',
-            width:420, height:30,
-            bind:{value:'{title}'},
-        });
+    	var me = this;
+    	var fields = Sgis.app.coreMap.getLayerBranchFiledInfo()[me.params.layerId];
+		for(var i=0; i<fields.length; i++){
+			this.add({
+                xtype: 'displayfield',
+                fieldLabel: fields[i].fnm,
+                style: 'margin-bottom: -1px; border: 1px solid #CCCCCC', 
+                labelStyle:'padding-left:4px; background-color: #eeeeee',
+                labelWidth:80,
+                fieldStyle:'padding-left:4px',
+                width:420, height:30,
+                bind:{value:'{'+fields[i].fid+'}'}
+            });
+		}
     }
 });
