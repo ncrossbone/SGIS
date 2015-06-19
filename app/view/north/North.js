@@ -81,6 +81,10 @@ Ext.define('Sgis.view.north.North', {
 				enableToggle: true,
 				iconCls: 'menu_gray',
 				id:'grayBtn'
+			}, '->', {
+				xtype: 'label',
+				id:'currUmdLabel',
+				text:''
 			},'->', {
 				id: 'mapmode',
 				xtype: 'cycle',

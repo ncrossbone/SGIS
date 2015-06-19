@@ -109,6 +109,7 @@ Ext.define('Sgis.map.CoreMap', {
     mapEventDefine:function(){
     	var me = this;
     	dojo.connect(this.map, "onExtentChange", function(extent){
+    		me.currUmdInfo();
     		if(me.extentRegAble){
     			if(me.extentReg.length>30){
         			me.extentReg.splice(0, 1);
@@ -429,5 +430,32 @@ Ext.define('Sgis.map.CoreMap', {
 	getLayerChartFiledInfo:function(){
 		var me = this;
 		return me.searchLayerAdmin.layerChartFiledInfo;
+	},
+	
+	currUmdMarker:null,
+	
+	currUmdInfo:function(){
+		var me = this;
+		var extent = me.map.extent
+		var x = (me.map.extent.xmin+me.map.extent.xmax)/2;
+		var y = (me.map.extent.ymin+me.map.extent.ymax)/2;
+		me.currUmdMarker = dojo.dojox.uuid.generateRandomUuid();
+		
+		var queryTask = new esri.tasks.QueryTask(Sgis.app.arcServiceUrl + "/rest/services/Layer2/MapServer/24");
+		var query = new esri.tasks.Query();
+		query.currUmdMarker = me.currUmdMarker;
+		query.returnGeometry = false;
+		query.outSpatialReference = {"wkid":102100};
+		query.geometry = new esri.geometry.Point(x, y, new esri.SpatialReference({wkid:102100}));
+		query.outFields = ["ADM_CD, DO_NM, CTY_NM, DONG_NM"];
+		queryTask.execute(query,  function(results){
+			if(results.features.length>0 && query.currUmdMarker == me.currUmdMarker){
+				var attr = results.features[0].attributes
+				//console.log(attr.DO_NM + " " + attr.CTY_NM + " " + attr.DONG_NM);
+				Sgis.getApplication().fireEvent('mapUMDPointChange', attr);
+			}
+		});
+		dojo.connect(queryTask, "onError", function(err) {
+		});
 	}
 });

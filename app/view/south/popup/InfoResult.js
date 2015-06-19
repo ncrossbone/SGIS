@@ -22,7 +22,7 @@ Ext.define('Sgis.view.south.popup.InfoResult', {
         columns: 2,
         tableAttrs: {
             style: {
-                width: '100%',
+                width: '100%'
             }
         }
     },

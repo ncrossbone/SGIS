@@ -64,10 +64,10 @@ Ext.define('Sgis.map.DynamicLayerAdmin', {
     	var me = this;
     	if(tabXtype=='app-west-tab1'){
     		me.layer.setVisibility(true);
-    		me.layer2.setVisibility(true);
+    		//me.layer2.setVisibility(true);
     	}else{
     		me.layer.setVisibility(false);
-    		me.layer2.setVisibility(false);
+    		//me.layer2.setVisibility(false);
     	}
     }
 });

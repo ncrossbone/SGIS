@@ -20,6 +20,7 @@ Ext.define('Sgis.view.north.NorthController', {
 		var me = this;
 		me.callParent();
 		Sgis.getApplication().addListener('mapExtentChange', me.mapExtentChangeHandler, me);
+		Sgis.getApplication().addListener('mapUMDPointChange', me.mapUMDPointChangeHandler, me);
     },
 	
 	onClickAll: function () {
@@ -68,5 +69,9 @@ Ext.define('Sgis.view.north.NorthController', {
 		if(Sgis.getApplication().browser!='Chrome' && Sgis.getApplication().browser!='Opera'){
 			Ext.getCmp('grayBtn').setPressed(false);
 		}
+	},
+	
+	mapUMDPointChangeHandler:function(attr){
+		Ext.getCmp('currUmdLabel').setText(attr.DO_NM + " " + attr.CTY_NM + " " + attr.DONG_NM)
 	}
 });

@@ -65,7 +65,8 @@ Ext.define('Sgis.Application', {
 		'spotChanged',			// 지도의 점을 선택했을 때 발생 
 		'searchParamChange',	// 검색 조건을 선택했을 때 발생 
 		'dataGridSelect',		// South 데이터 그리드 하나를 선택했을 때 발생
-		'mapExtentChange'       //지도의 위치를 변경될때.
+		'mapExtentChange',       //지도의 위치를 변경될때.
+		'mapUMDPointChange'     //지도의 위치가 변경될때 중심점에 법정동정보 발생
 	],
 
 	launch: function () {
