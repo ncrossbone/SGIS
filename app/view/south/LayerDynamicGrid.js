@@ -374,6 +374,7 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 		}
 		
 		Ext.Array.sort(filterValues);
+		filterValues.unshift("ALL");
 		return filterValues;
 	}
 });
