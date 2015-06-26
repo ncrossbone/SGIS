@@ -4,7 +4,8 @@ Ext.define('Sgis.view.south.popup.MeasureResultController', {
     
     control: {	
 		'#measureGrid menuitem': {
-			tryevent: 'tryeventHandler'
+			chartAdd: 'chartAddHandler',
+			chartRemove: 'chartRemoveHandler'
 		}
 	},
 	
@@ -16,5 +17,13 @@ Ext.define('Sgis.view.south.popup.MeasureResultController', {
     
     tryeventHandler:function(colIndex){
     	alert(colIndex)
+    },
+    
+    chartAddHandler:function(conIndex){
+    	alert("Add : " + conIndex)
+    },
+    
+    chartRemoveHandler:function(conIndex){
+    	alert("Remove : " + conIndex)
     }
 });

@@ -40,9 +40,10 @@ Ext.define('Sgis.view.south.popup.MeasureResult', {
                 var menuItem = menu.add({
                     text: '차트추가',
                     handler: function(col) {
-                        //alert(col.text + " " + menu.activeHeader.dataIndex);
-                    	this.up().up().up().up().chartAddInfo['col_'+menu.activeHeader.dataIndex] = menu.activeHeader.dataIndex;
-                    	this.fireEvent('tryevent', menu.activeHeader.dataIndex);
+                    	var currentDataIndex = menu.activeHeader.dataIndex;  
+                    	$('#' + menu.activeHeader.id + '-textEl').css({color:'#ff0000'});
+                    	Ext.getCmp('measureGrid').up().chartAddInfo['col_'+menu.activeHeader.dataIndex] = currentDataIndex;
+                    	this.fireEvent('chartAdd', currentDataIndex);
                     }
                 });
                 
@@ -50,20 +51,16 @@ Ext.define('Sgis.view.south.popup.MeasureResult', {
                 var menuItem2 = menu2.add({
                     text: '차트삭제',
                     handler: function(col) {
-                    	delete this.up().up().up().up().chartAddInfo['col_'+menu.activeHeader.dataIndex];
-                    	this.fireEvent('tryevent', menu.activeHeader.dataIndex);
+                    	var currentDataIndex = menu.activeHeader.dataIndex; 
+                    	$('#' + menu.activeHeader.id + '-textEl').css({color:''});
+                    	Ext.getCmp('measureGrid').up().chartAddInfo['col_'+currentDataIndex];
+                    	this.fireEvent('chartRemove', currentDataIndex);
                     }
                 });
                 
                 menu.on('beforeshow', function() {
                    var currentDataIndex = menu.activeHeader.dataIndex; 
-//                    if (currentDataIndex === 'IC_00002') {
-//                        menuItem.show();
-//                    	//menuItem.setText("xx")
-//                    } else {
-//                        menuItem.hide();
-//                    }
-                   if(this.up().up().up().up().chartAddInfo[currentDataIndex]){
+                   if(Ext.getCmp('measureGrid').up().chartAddInfo['col_'+currentDataIndex]){
                 	   menuItem.hide();
                 	   menuItem2.show();
                    }else{
