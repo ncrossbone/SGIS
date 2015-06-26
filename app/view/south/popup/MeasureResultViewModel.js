@@ -60,7 +60,8 @@ Ext.define('Sgis.view.south.popup.MeasureResultViewModel', {
 		query.returnGeometry = false;
 		query.outSpatialReference = {"wkid":102100};
 		query.geometry = geometry;
-		query.outFields = [me.fieldsStr];
+		//query.outFields = [me.fieldsStr];
+		query.outFields = ["*"];
 		queryTask.execute(query,  function(results){
 			Ext.each(results.features, function(obj, index) {
 				chartDatas.push(obj.attributes);

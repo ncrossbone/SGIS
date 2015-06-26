@@ -427,6 +427,11 @@ Ext.define('Sgis.map.CoreMap', {
 		return me.searchLayerAdmin.layerBranchFiledInfo;
 	},
 	
+	getLayerDetailFiledInfo:function(){
+		var me = this;
+		return me.searchLayerAdmin.layerDetailFiledInfo;
+	},
+	
 	getLayerChartFiledInfo:function(){
 		var me = this;
 		return me.searchLayerAdmin.layerChartFiledInfo;

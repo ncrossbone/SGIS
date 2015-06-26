@@ -22,6 +22,10 @@ Ext.define('Sgis.view.south.popup.BranchInfoPopup', {
 				xtype:'sourth_branch_infoResult',
 				params: this._params
 			},{
+				title: '상세정보',
+				xtype:'sourth_detail_infoResult',
+				params: this._params
+			},{
 				title: '측정정보',
 				xtype:'sourth_branch_measureResult',
 				params: this._params

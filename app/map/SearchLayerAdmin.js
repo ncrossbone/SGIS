@@ -18,6 +18,7 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 	
 	layerDisplayFiledInfo:{},
 	layerBranchFiledInfo:{},
+	layerDetailFiledInfo:{},
 	layerChartFiledInfo:{},
 	
 	constructor: function(map, geometryService) {
@@ -64,6 +65,7 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 		
 		me.getLayerDisplayFiledInfo();
 		me.getLayerBranchFiledInfo();
+		me.getLayerDetailFiledInfo();
 		me.getLayerChartFiledInfo();
 		
 		Sgis.getApplication().addListener('searchLayerOnOff', me.searchLayerOnOfffHandler, me);
@@ -225,7 +227,7 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 	
 	getLayerBranchFiledInfo:function(callback, scope){
 		var me = this;
-		var queryTask = new esri.tasks.QueryTask(me.layer1Url + "/17");
+		var queryTask = new esri.tasks.QueryTask(me.layer1Url + "/18");
 		var query = new esri.tasks.Query();
 		query.returnGeometry = false;
 		query.where = "1=1";
@@ -239,7 +241,34 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 					me.layerBranchFiledInfo[attr.ServiceID] = [];
 					me.layerBranchFiledInfo[attr.ServiceID].push({fnm:"OBJECTID", fid:"OBJECTID", flag:false})
 				}
-				me.layerBranchFiledInfo[attr.ServiceID].push({fnm:attr.Grid_NM, fid:attr.Column_NM});
+				//me.layerBranchFiledInfo[attr.ServiceID].push({fnm:attr.Grid_NM, fid:attr.Column_NM});
+				me.layerBranchFiledInfo[attr.ServiceID].push({fnm:attr.Column_NM, fid:attr.Grid_NM});
+			});
+			SGIS.loading.finish();
+		});
+		dojo.connect(queryTask, "onError", function(err) {
+			SGIS.loading.finish();
+		});
+	},
+	
+	getLayerDetailFiledInfo:function(callback, scope){
+		var me = this;
+		var queryTask = new esri.tasks.QueryTask(me.layer1Url + "/19");
+		var query = new esri.tasks.Query();
+		query.returnGeometry = false;
+		query.where = "1=1";
+		query.outFields = ["*"];
+		SGIS.loading.execute();
+		queryTask.execute(query,  function(results){
+			var attr = results.features;
+			Ext.each(results.features, function(obj, index) {
+				var attr = obj.attributes
+				if(!me.layerDetailFiledInfo[attr.ServiceID]){
+					me.layerDetailFiledInfo[attr.ServiceID] = [];
+					me.layerDetailFiledInfo[attr.ServiceID].push({fnm:"OBJECTID", fid:"OBJECTID", flag:false})
+				}
+				//me.layerDetailFiledInfo[attr.ServiceID].push({fnm:attr.Grid_NM, fid:attr.Column_NM});
+				me.layerDetailFiledInfo[attr.ServiceID].push({fnm:attr.Column_NM, fid:attr.Grid_NM});
 			});
 			SGIS.loading.finish();
 		});
@@ -250,7 +279,7 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 	
 	getLayerChartFiledInfo:function(callback, scope){
 		var me = this;
-		var queryTask = new esri.tasks.QueryTask(me.layer1Url + "/17");
+		var queryTask = new esri.tasks.QueryTask(me.layer1Url + "/20");
 		var query = new esri.tasks.Query();
 		query.returnGeometry = false;
 		query.where = "1=1";
@@ -264,7 +293,8 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 					me.layerChartFiledInfo[attr.ServiceID] = [];
 					me.layerChartFiledInfo[attr.ServiceID].push({fnm:"OBJECTID", fid:"OBJECTID", flag:false})
 				}
-				me.layerChartFiledInfo[attr.ServiceID].push({fnm:attr.Grid_NM, fid:attr.Column_NM});
+				//me.layerChartFiledInfo[attr.ServiceID].push({fnm:attr.Grid_NM, fid:attr.Column_NM});
+				me.layerChartFiledInfo[attr.ServiceID].push({fnm:attr.Column_NM, fid:attr.Grid_NM});
 			});
 			SGIS.loading.finish();
 		});

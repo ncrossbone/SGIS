@@ -1,10 +1,10 @@
-Ext.define('Sgis.view.south.popup.InfoResultViewModel', {
+Ext.define('Sgis.view.south.popup.DetailResultViewModel', {
     extend: 'Ext.app.ViewModel', 
-    alias: 'viewmodel.sourth_branch_infoResult', 
+    alias: 'viewmodel.sourth_detail_infoResult', 
 
     arcSearch:function(params){
     	var me = this;
-    	var fields = Sgis.app.coreMap.getLayerBranchFiledInfo()[params.layerId];
+    	var fields = Sgis.app.coreMap.getLayerDetailFiledInfo()[params.layerId];
     	var fieldsStr = "";
     	for(var i=0; i<fields.length; i++){
 			if(i==0){
