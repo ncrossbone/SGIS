@@ -41,8 +41,9 @@ Ext.define('Sgis.view.south.popup.MeasureResult', {
                     text: '차트추가',
                     handler: function(col) {
                     	var currentDataIndex = menu.activeHeader.dataIndex;  
+                    	var currentDataText = menu.activeHeader.text;
                     	$('#' + menu.activeHeader.id + '-textEl').css({color:'#ff0000'});
-                    	Ext.getCmp('measureGrid').up().chartAddInfo['col_'+menu.activeHeader.dataIndex] = currentDataIndex;
+                    	Ext.getCmp('measureGrid').up().chartAddInfo['col_'+menu.activeHeader.dataIndex] = {index:currentDataIndex, text:currentDataText};
                     	this.fireEvent('chartAdd', currentDataIndex);
                     }
                 });
@@ -53,7 +54,7 @@ Ext.define('Sgis.view.south.popup.MeasureResult', {
                     handler: function(col) {
                     	var currentDataIndex = menu.activeHeader.dataIndex; 
                     	$('#' + menu.activeHeader.id + '-textEl').css({color:''});
-                    	Ext.getCmp('measureGrid').up().chartAddInfo['col_'+currentDataIndex];
+                    	delete Ext.getCmp('measureGrid').up().chartAddInfo['col_'+currentDataIndex];
                     	this.fireEvent('chartRemove', currentDataIndex);
                     }
                 });
@@ -67,19 +68,39 @@ Ext.define('Sgis.view.south.popup.MeasureResult', {
                 	   menuItem.show();
                 	   menuItem2.hide();
                    }
+                   if(currentDataIndex=='OBJECTID'){
+                	   menuItem.hide();
+                	   menuItem2.hide();
+                   }
                 });
             }
         }
 	},{
 		xtype: 'cartesian',
+		id:'measureChart',
 		flex:0.5,
         animate: true,
         shadow: false,
-        style: 'background: #ccc;'
+        insetPadding: 40,
+        style: 'background: #ccc;',
+        bind:{store:'{grid}'},
+	    axes: [{
+	        type: 'numeric',
+	        position: 'left'
+	    }, {
+	        type: 'category',
+	        position: 'bottom'
+	    }],
+	    legend: {
+	    	docked: 'right',
+            boxStrokeWidth: 0,
+            labelFont: '12px Helvetica'
+        }
 	}],
 	
 	makeGrid:function(){
 		var me = this;
+		me.chartAddInfo = {};
 		var columns = [];
 		var grid = me.down('#measureGrid');
 		var fields = Sgis.app.coreMap.getLayerChartFiledInfo()[me.params.layerId];
@@ -88,9 +109,14 @@ Ext.define('Sgis.view.south.popup.MeasureResult', {
 				width:80,
 				text : fields[i].fnm,
 				dataIndex : fields[i].fid
-				//flex : 1
 			})
 		}
 		grid.reconfigure([], columns);
+	},
+	
+	makeChartSeries:function(series){
+		var me = this;
+		var chart = me.down('#measureChart');
+		chart.setSeries(series);
 	}
 });

@@ -15,15 +15,35 @@ Ext.define('Sgis.view.south.popup.MeasureResultController', {
     	this.getView().getViewModel().arcSearch(params);
     },
     
-    tryeventHandler:function(colIndex){
-    	alert(colIndex)
-    },
-    
     chartAddHandler:function(conIndex){
-    	alert("Add : " + conIndex)
+    	var info = this.getView().chartAddInfo;
+    	var seriesArray = [];
+    	for(var member in info){
+    		seriesArray.push({
+    			type: 'line',
+		        xField: 'OBJECTID',
+		        yField: info[member]['index'],
+		        title:info[member]['text'],
+		        marker: true
+    		})	
+    	}
+    	this.getView().makeChartSeries(seriesArray);
+    	this.getView().getViewModel().touch();
     },
     
     chartRemoveHandler:function(conIndex){
-    	alert("Remove : " + conIndex)
+    	var info = this.getView().chartAddInfo;
+    	var seriesArray = [];
+    	for(var member in info){
+    		seriesArray.push({
+    			type: 'line',
+		        xField: 'OBJECTID',
+		        yField: info[member]['index'],
+		        title:info[member]['text'],
+		        marker: true
+    		})	
+    	}
+    	this.getView().makeChartSeries(seriesArray);
+    	this.getView().getViewModel().touch();
     }
 });

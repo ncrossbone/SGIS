@@ -5,7 +5,7 @@ Ext.define('Sgis.view.south.popup.MeasureResultViewModel', {
     stores: {
         grid: {
         	fields: [],
-        	autoLoad: false,
+        	autoLoad: true,
         	remoteFilter: false,
         	remoteSort: false,
         	proxy: {
@@ -54,7 +54,7 @@ Ext.define('Sgis.view.south.popup.MeasureResultViewModel', {
     
     chartSearch:function(params, geometry){
     	var me = this;
-    	var chartDatas = [];
+    	this.resultDatas = [];
     	var queryTask = new esri.tasks.QueryTask(Sgis.app.coreMap.layerInfo.layer1Url + "/" + params.layerId);
 		var query = new esri.tasks.Query();
 		query.returnGeometry = false;
@@ -64,14 +64,18 @@ Ext.define('Sgis.view.south.popup.MeasureResultViewModel', {
 		query.outFields = ["*"];
 		queryTask.execute(query,  function(results){
 			Ext.each(results.features, function(obj, index) {
-				chartDatas.push(obj.attributes);
+				me.resultDatas.push(obj.attributes);
 				if(results.features.length==index+1){
-					me.getStore('grid').loadData(chartDatas);
+					me.getStore('grid').loadData(me.resultDatas);
 				}
 			});
 		});
 		dojo.connect(queryTask, "onError", function(err) {
 			SGIS.msg.alert(err);
 		});
+    },
+    
+    touch:function(){
+    	this.getStore('grid').loadData(this.resultDatas);
     }
 });
