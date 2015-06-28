@@ -86,10 +86,12 @@ Ext.define('Sgis.view.south.popup.MeasureResult', {
         bind:{store:'{grid}'},
 	    axes: [{
 	        type: 'numeric',
-	        position: 'left'
+	        position: 'left',
+	        grid: true
 	    }, {
 	        type: 'category',
-	        position: 'bottom'
+	        position: 'bottom',
+	        grid: true
 	    }],
 	    legend: {
 	    	docked: 'right',
