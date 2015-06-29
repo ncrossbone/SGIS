@@ -73,6 +73,7 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 		Sgis.getApplication().addListener('leftTabChange', me.leftTabChangeHandler, me); //레이어탭 app-west-tab1 //자료검색탭활 app-west-tab2
 		Sgis.getApplication().addListener('areaSelect', me.areaSelectHandler, me); 
 		Sgis.getApplication().addListener('dataGridSelect', me.dataGridSelectHandler, me); 
+		Sgis.getApplication().addListener('searchParamChange', me.searchParamChangeHandler, me); 
 		
 		dojo.connect(me.map, "onExtentChange", 
 			 function(extent){  
@@ -378,6 +379,21 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 				resultData.filterCallback = me.spSearch;
 				resultData.filterCallbackScope = me;
 				
+				for(var i=0; i<resultData.filter.length; i++){
+					var filter = resultData.filter[i];
+					var notMatch = true;
+					for(var k=0; k<resultData.field.length; k++){
+						for(var key in filter){
+							if(key == resultData.field[k].fid){
+								notMatch = false;
+							}
+						}
+					}
+					if(notMatch){
+						resultData.field.push({fid:key, fnm:key})
+					}
+				}
+				
 				resultData.layerId = layer.layerId;
 				resultData.text = layer.text;
 				resultData.datas = datas;
@@ -459,6 +475,47 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 		dojo.connect(queryTask, "onError", function(err) {
 			alert(err);
 		});
+	},
+	
+	searchParamChangeHandler:function(layerId, params){
+		var me = this;
+		var keys = [];
+		for(var key in params){
+			if(params[key]!='ALL'){
+				keys.push(key);
+			}
+		}
+		
+		var reData = [];
+		var graphics = me.targetGraphicLayer.graphics
+		if(keys.length==0){
+			for(var i=0; i<graphics.length; i++){
+				var attr = graphics[i].attributes;
+				graphics[i].show();
+				reData.push(attr);
+			}
+		}else{
+			for(var i=0; i<graphics.length; i++){
+				var attr = graphics[i].attributes;
+				var addYn = true;
+				if(attr._layerId_ == layerId){
+					for(var k=0; k<keys.length; k++){
+						if(attr[keys[k]] && attr[keys[k]]==params[keys[k]]){
+							graphics[i].show();
+						}else{
+							graphics[i].hide();
+							addYn = false;
+							break;
+						}
+					}
+				}
+				if(addYn){
+					reData.push(attr);
+				}
+			}
+		}
+		
+		Sgis.getApplication().fireEvent('searchParamChangeCallback', reData);
 	},
 	
 	symbolHighlight: function(feature){

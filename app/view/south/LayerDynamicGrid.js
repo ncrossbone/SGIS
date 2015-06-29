@@ -272,19 +272,28 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 		Ext.resumeLayouts(true);
 	},
 	
+	gridFields:null,
 	createDynamicStore : function(headers, dataList) {
 		var store = this.getStore();
 		var pageSize = this.getPageSize();
 		
-		if(store == null || !store.fields) {
-			var fields = [];
+		if(headers && (store == null || !store.fields)) {
+			this.gridFields = [];
 
 			for(var i = 0 ; i < headers.length ; i++) {
-				fields.push(headers[i].dataIndex);
+				this.gridFields.push(headers[i].dataIndex);
 			}
 		
 			store = Ext.create('Sgis.store.LayerDynamicStore', {
-				fields: fields,
+				fields: this.gridFields,
+				data: dataList
+			});
+		}
+		
+		if(!headers){
+			var fields = store.fields;
+			store = Ext.create('Sgis.store.LayerDynamicStore', {
+				fields: this.gridFields,
 				data: dataList
 			});
 		}

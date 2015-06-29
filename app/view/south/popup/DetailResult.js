@@ -39,7 +39,7 @@ Ext.define('Sgis.view.south.popup.DetailResult', {
                 labelStyle:'padding-left:4px; background-color: #eeeeee',
                 labelWidth:240,
                 fieldStyle:'padding-left:4px',
-                width:840, height:30,
+                width:824, height:30,
                 bind:{value:'{'+fields[i].fid+'}'}
             });
 		}

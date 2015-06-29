@@ -16,6 +16,11 @@ Ext.define('Sgis.view.south.LayerDynamicGridController', {
 		}
 	},
 	
+	constructor: function() {
+		this.callParent();
+		Sgis.getApplication().addListener('searchParamChangeCallback', this.searchParamChangeCallbackeHandler, this);
+	},
+	
 	reloadGrid: function(btn) {
 		if(btn.itemId == 'btnCountPerPage') {
 			var pageSize = btn.getText();
@@ -34,9 +39,19 @@ Ext.define('Sgis.view.south.LayerDynamicGridController', {
 				}
 			});
 		
+//			var store = this.getView().getStore();
+//			var filters = [];
+//			for(var key in params){
+//				if(params[key]!='ALL'){
+//					filters.push({property:key, value:params[key]});
+//				}
+//			}
+//			store.setFilters(filters);
+//			if(filters.length==0){
+//				store.clearFilter();
+//			}
+			
 			var layerId = this.getView().layerId;
-			SGIS.msg.alert('Event : searchParamChange, Layer ID : ' + layerId);
-			console.log(params);
 			Sgis.getApplication().fireEvent('searchParamChange', layerId, params);
 		}
 	},
@@ -59,5 +74,9 @@ Ext.define('Sgis.view.south.LayerDynamicGridController', {
 	onWellDetail: function(button, event, eOpts) {
 		var record = button.getWidgetRecord();
 		SGIS.msg.alert('관정보기 : OBJECTID : ' + record.get('OBJECTID'));
+	},
+	
+	searchParamChangeCallbackeHandler:function(reData){
+		this.getView().createDynamicStore(null, reData);
 	}
 });
