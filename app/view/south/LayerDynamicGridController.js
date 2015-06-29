@@ -49,23 +49,22 @@ Ext.define('Sgis.view.south.LayerDynamicGridController', {
 	},
 	
 	exportExcel: function(button, event, eOpts) {
+		var me = this;
 		var layerId = this.getView().layerId;
-		if(button.text=='내려받기'){
-			button.setText("내려받기취소");
-//			Ext.Ajax.request(function(){
-//			    url : Sgis.getApplication().excelDownUrl,
-//			    jsonData : {hearder:this.getView().gridFields, datas:this.getView().gridData});
-//			    
-//			    success : function(response){
-//			    	button.setText("내려받기");
-//			    },
-//			    failure : function(response){
-//			    	button.setText("내려받기");
-//			    },
-//			})
+		if(button.text=='액셀받기'){
+			button.setText("액셀받기취소");	
+			
+			var obj = {'header':JSON.stringify(me.getView().gridFields), 'datas':JSON.stringify(me.getView().gridData)};
+			$.post(esri.config.defaults.io.proxyUrl+'?'+Sgis.app.excelDownUrl, obj, function(data){
+				button.setText("액셀받기");
+				$('#__fileDownloadIframe__').remove();
+				$('body').append('<iframe src='+esri.config.defaults.io.proxyUrl+'?'+data.url+' id="__fileDownloadIframe__" name="__fileDownloadIframe__" width="0" height="0" style="display:none;"/>');
+	   		},"json").error(function(){
+	   			button.setText("액셀받기");
+	   		});
 		}else{
 			Sgis.getApplication().fireEvent('abortFinishMode', null);
-			button.setText("내려받기");
+			button.setText("액셀받기");
 		}
 	},
 	
