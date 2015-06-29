@@ -26,7 +26,9 @@ Ext.define('Sgis.Application', {
 	fuckBrowser:false,
 	
 	meUrl:'http://' + window.location.hostname + ':' + window.location.port + '/',
+	printUrl:'http://' + window.location.hostname + ':' + window.location.port + '/sgis-war/CustomPrintTask.jsp',
 	proxyUrl:'http://' + window.location.hostname + ':' + window.location.port + '/sgis-war/proxy.jsp',
+	excelDownUrl:'http://' + window.location.hostname + ':' + window.location.port + '/sgis-war/excelDownload.jsp',
 	arcServiceUrl:'http://cetech.iptime.org:6080/arcgis',
 
 	stores: [

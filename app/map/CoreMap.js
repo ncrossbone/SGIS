@@ -91,7 +91,7 @@ Ext.define('Sgis.map.CoreMap', {
 			        	}, onError:function(){}});
 			        	
 			        	Ext.Loader.loadScript({url:'app/map/task/CustomPrintTask.js', onLoad:function(){
-			        		me.printTask = new ash.map.task.CustomPrintTask(me.map, "_mapDiv_", Sgis.app.arcServiceUrl);
+			        		me.printTask = new ash.map.task.CustomPrintTask(me.map, "_mapDiv_", Sgis.app.printUrl, Sgis.app.arcServiceUrl);
 			        		dojo.connect(me.printTask, "onComplete", function(event){	
 			        			SGIS.loading.finish();
 			        		});

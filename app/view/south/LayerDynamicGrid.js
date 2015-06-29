@@ -139,7 +139,7 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 		toolbar.add({
 			itemId : 'export',
 			xtype : 'button',
-			text : '내려 받기',
+			text : '내려받기',
 			handler : 'exportExcel'
 		});
 		
@@ -273,9 +273,11 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 	},
 	
 	gridFields:null,
+	gridData:null,
 	createDynamicStore : function(headers, dataList) {
 		var store = this.getStore();
 		var pageSize = this.getPageSize();
+		this.GridData = dataList;
 		
 		if(headers && (store == null || !store.fields)) {
 			this.gridFields = [];

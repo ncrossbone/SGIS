@@ -38,19 +38,7 @@ Ext.define('Sgis.view.south.LayerDynamicGridController', {
 					params[item.itemId] = item.text;
 				}
 			});
-		
-//			var store = this.getView().getStore();
-//			var filters = [];
-//			for(var key in params){
-//				if(params[key]!='ALL'){
-//					filters.push({property:key, value:params[key]});
-//				}
-//			}
-//			store.setFilters(filters);
-//			if(filters.length==0){
-//				store.clearFilter();
-//			}
-			
+
 			var layerId = this.getView().layerId;
 			Sgis.getApplication().fireEvent('searchParamChange', layerId, params);
 		}
@@ -62,7 +50,23 @@ Ext.define('Sgis.view.south.LayerDynamicGridController', {
 	
 	exportExcel: function(button, event, eOpts) {
 		var layerId = this.getView().layerId;
-		SGIS.msg.alert('export layer : ' + layerId);
+		if(button.text=='내려받기'){
+			button.setText("내려받기취소");
+//			Ext.Ajax.request(function(){
+//			    url : Sgis.getApplication().excelDownUrl,
+//			    jsonData : {hearder:this.getView().gridFields, datas:this.getView().gridData});
+//			    
+//			    success : function(response){
+//			    	button.setText("내려받기");
+//			    },
+//			    failure : function(response){
+//			    	button.setText("내려받기");
+//			    },
+//			})
+		}else{
+			Sgis.getApplication().fireEvent('abortFinishMode', null);
+			button.setText("내려받기");
+		}
 	},
 	
 	onBranchDetail: function(button, event, eOpts) {

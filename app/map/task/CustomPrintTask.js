@@ -1,13 +1,14 @@
 dojo.declare("ash.map.task.CustomPrintTask", null, {
 	map:null,
 	mapDivId:null,
-	arcServerUrl:null,
+	printUrl:null,
 	
-	constructor:function(map, divId, url) {
+	constructor:function(map, divId, url, arcServiceUrl) {
 		var me = this;
 		me.map = map;
 		me.mapDivId = divId;
-		me.arcServerUrl = url;
+		me.printUrl = url;
+		me.arcServiceUrl = arcServiceUrl
 	},
 	
 	onComplete:function(arg){
@@ -64,10 +65,10 @@ dojo.declare("ash.map.task.CustomPrintTask", null, {
 		}
 		
 		me.convertImgToBase64Exe(imageInfos, function(){
-			var obj = {imageInfos:JSON.stringify(imageInfos), svgInfo:svgInfo, width:$('#'+me.mapDivId).width(), height:$('#'+me.mapDivId).height()};
-			$.post(esri.config.defaults.io.proxyUrl + "?" + me.arcServerUrl +"/customPrintTask.jsp", obj, function(data){
+			var obj = {imageInfos:JSON.stringify(imageInfos), svgInfo:svgInfo, width:$('#'+me.mapDivId).width(), height:$('#'+me.mapDivId).height(), arcServiceUrl:me.arcServiceUrl, mode:mode};
+			$.post(esri.config.defaults.io.proxyUrl+'?'+me.printUrl, obj, function(data){
 				if(mode=="print"){
-					var popup = window.open(esri.config.defaults.io.proxyUrl+'?'+data.url+'&print=Y', 'newWindow', "width=1000,height=700");
+					var popup = window.open(esri.config.defaults.io.proxyUrl+'?'+data.url, 'newWindow', "width=1000,height=700");
 					popup.focus(); //required for IE
 					popup.print();
 				}else if(mode=="capture"){

@@ -29,7 +29,7 @@ Ext.define('Sgis.view.south.popup.MeasureResult', {
     items: [{
     	id:'measureGrid',
 		xtype : 'grid',
-		flex:0.5,
+		flex:0.4,
 		autoScroll : true,
 		rowLines : true,
 		columnLines : true,
@@ -78,7 +78,7 @@ Ext.define('Sgis.view.south.popup.MeasureResult', {
 	},{
 		xtype: 'cartesian',
 		id:'measureChart',
-		flex:0.5,
+		flex:0.6,
         animate: true,
         shadow: false,
         insetPadding: 40,
