@@ -63,7 +63,9 @@ Ext.define('Sgis.map.CoreMap', {
   		         "dijit/layout/BorderContainer",
   		         "dijit/layout/ContentPane",
   		         "dojox/uuid/generateRandomUuid",
-  		         "esri/tasks/ProjectParameters"],  
+  		         "esri/tasks/ProjectParameters",
+  		         "Sgis/map/toolbar/CustomDraw",
+  		         "Sgis/map/task/CustomPrintTask"],  
   		         function() {
 		        	esri.config.defaults.io.proxyUrl = Sgis.app.proxyUrl;
 		    		esri.config.defaults.io.alwaysUseProxy = true;
@@ -83,7 +85,7 @@ Ext.define('Sgis.map.CoreMap', {
 			        	Ext.Loader.loadScript({url:'app/map/toolbar/CustomDraw.js', onLoad:function(){
 			        		me.dynamicLayerAdmin = Ext.create('Sgis.map.DynamicLayerAdmin', me.map);
 				        	me.searchLayerAdmin = Ext.create('Sgis.map.SearchLayerAdmin', me.map, me.geometryService);
-			        		me.toolbar = new ash.map.toolbar.CustomDraw(me.map, {showTooltips:false}, true, me.map.graphics);
+			        		me.toolbar = new Sgis.map.toolbar.CustomDraw(me.map, {showTooltips:false}, true, me.map.graphics);
 				        	dojo.connect(me.toolbar, "onDrawEnd", function(event){
 				    			me.map.setMapCursor("default");
 				    			me.measure(event);
@@ -91,11 +93,14 @@ Ext.define('Sgis.map.CoreMap', {
 			        	}, onError:function(){}});
 			        	
 			        	Ext.Loader.loadScript({url:'app/map/task/CustomPrintTask.js', onLoad:function(){
-			        		me.printTask = new ash.map.task.CustomPrintTask(me.map, "_mapDiv_", Sgis.app.printUrl, Sgis.app.arcServiceUrl);
+			        		me.printTask = new Sgis.map.task.CustomPrintTask(me.map, "_mapDiv_", Sgis.app.printUrl, Sgis.app.arcServiceUrl);
 			        		dojo.connect(me.printTask, "onComplete", function(event){	
 			        			SGIS.loading.finish();
 			        		});
 			        	}, onError:function(){}});
+			        	
+			        	// khLee Extent Change Event
+			            dojo.connect(me.map, "onExtentChange", Ext.setExtent);
 			        	
 			        	me.smpLineSymbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([0,0,255,0.8]), 2);
 			    		me.simpleFillSymbol= new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, me.smpLineSymbol, new dojo.Color([0,0,255,0.1]));

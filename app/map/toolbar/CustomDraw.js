@@ -1,4 +1,4 @@
-dojo.declare("ash.map.toolbar.CustomDraw", esri.toolbars.Draw, {
+dojo.declare("Sgis.map.toolbar.CustomDraw", esri.toolbars.Draw, {
 	drawMode:false,
 	closeBtn:false,
 	closeEvent:false,

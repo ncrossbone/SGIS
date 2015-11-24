@@ -6,7 +6,8 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 		'Ext.grid.column.Action',
 		'Sgis.store.LayerDynamicStore',
 		'Sgis.view.south.LayerDynamicGridController',
-		'Sgis.view.south.popup.BranchInfoPopup'
+		'Sgis.view.south.popup.BranchInfoPopup',
+		'Ext.grid.filters.Filters'
 	],
 	
 	xtype : 'layer_dynamic_grid',
@@ -26,6 +27,8 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 	rowLines : true,
 		
 	columnLines : true,
+	
+	plugins: ['gridfilters'],
 	
 	columns : [ { 
 		dataIndex : 'id',
@@ -228,6 +231,7 @@ Ext.define('Sgis.view.south.LayerDynamicGrid', {
 				text : headers[i].text,
 				dataIndex : headers[i].dataIndex,
 				hidden : headers[i].hidden,
+				filter: 'string', //string
 				flex : 1
 			})
 			

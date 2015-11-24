@@ -1,0 +1,51 @@
+[{
+	"id" : "0",
+    "text": "낙동강 대교",
+    "expanded": true,
+    "checked": false,
+    "leaf": true
+},{
+	"id" : "1",
+    "text": "측정지점",
+    "expanded": true,
+    "checked": false,
+    "leaf": true
+},{
+	"id" : "2",
+    "text": "보대표지점",
+    "expanded": true,
+    "checked": false,
+    "leaf": true
+},{
+	"id" : "3",
+    "text": "행정구역(법정동)",
+    "expanded": true,
+    "checked": false,
+    "children": [{
+		"id" : "4",
+        "text": "법정동_시도",
+        "leaf": true,
+        "checked": false
+    },{
+		"id" : "5",
+        "text": "법정동_시군구",
+        "leaf": true,
+        "checked": false
+    },{
+		"id" : "6",
+        "text": "법정동_읍면동",
+        "leaf": true,
+        "checked": false
+    },{
+		"id" : "7",
+        "text": "법정동_동리",
+        "leaf": true,
+        "checked": false
+    }]
+},{
+	"id" : "8",
+    "text": "녹조영상",
+    "expanded": true,
+    "checked": false,
+    "leaf": true
+}]

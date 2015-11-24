@@ -28,6 +28,9 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 		
 		me.layer1Url = Sgis.app.coreMap.layerInfo.layer1Url;
 		
+		me.fullExtentMove = Sgis.app.coreMap.fullExtentMove;
+		me.fullExtent = Sgis.app.coreMap.fullExtent;
+		
 		me.smpLineSymbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([0,0,255,0.8]), 2);
 		me.simpleFillSymbol= new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, me.smpLineSymbol, new dojo.Color([0,0,255,0.1]));
 		
@@ -57,7 +60,7 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 		me.highlightGraphicLayer.id="highlightGraphic";
 		me.map.addLayer(me.highlightGraphicLayer);
 		
-		me.toolbar = new ash.map.toolbar.CustomDraw(me.map, {showTooltips:false}, true, me.sourceGraphicLayer);
+		me.toolbar = new Sgis.map.toolbar.CustomDraw(me.map, {showTooltips:false}, true, me.sourceGraphicLayer);
 		dojo.connect(me.toolbar, "onDrawEnd", function(event){
 			me.map.setMapCursor("default");
 			me.addToMap(event);
@@ -177,7 +180,8 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 		me.targetGraphicLayer.clear();
 		me.highlightGraphicLayer.clear();
 		
-		var queryTask = new esri.tasks.QueryTask(Sgis.app.arcServiceUrl + "/rest/services/Layer2/MapServer/" + info.layerId);
+		//var queryTask = new esri.tasks.QueryTask(Sgis.app.arcServiceUrl + "/rest/services/Layer2/MapServer/" + info.layerId);
+		var queryTask = new esri.tasks.QueryTask(Sgis.app.arcServiceUrl + "/rest/services/Layer1_new/MapServer/" + info.layerId);
 		var query = new esri.tasks.Query();
 		query.returnGeometry = true;
 		query.outSpatialReference = {"wkid":102100};
@@ -544,6 +548,7 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 	areaAutoDisplayCheck:function(){
 		var me = this;
 		
+		
 		var xmin = 999999999;
 		var ymin = 999999999;
 		var xmax = -999999999;
@@ -582,6 +587,13 @@ Ext.define('Sgis.map.SearchLayerAdmin', {
 					graphic.setSymbol(me.simpleFillSymbol);
 				});
 			}
+		}
+		// 맵의 단계가 6이거나 6밑으로 내려가면 원래 전체 화면으로 변경 (6이하부터 맵이 안보임)
+		if(me.map.getLevel() <= 6  ){
+			//me.fullExtentMove(me.fullExtent);
+			//Sgis.getApplication().coreMap.fullExtentMove();
+			me.map.setLevel(7);
+			me.map.centerAt(me.fullExtent.getCenter());
 		}
 	}
 });

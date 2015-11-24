@@ -1,0 +1,459 @@
+[{
+	"id": "0",
+	"text": "수질측정지점",
+	"checked": false,
+	"expanded": true,
+
+	"children": [{
+		"id": "1",
+		"text": "하천수",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "2",
+		"text": "호소수",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "3",
+		"text": "농업용수",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "4",
+		"text": "산단하천",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "5",
+		"text": "도시관류",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "6",
+		"text": "중권역대표지점",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "7",
+		"text": "보대표지점",
+		"leaf": true,
+		"checked": false
+	}]
+}, {
+	"id": "8",
+	"text": "수질자동측정지점",
+	"checked": false,
+	"expanded": true,
+
+	"children": [{
+		"id": "9",
+		"text": "수질자동측정망",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "10",
+		"text": "수질TMS",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "11",
+		"text": "사업장TMS",
+		"leaf": true,
+		"checked": false
+	}]
+}, {
+	"id": "12",
+	"text": "퇴적물조사지점",
+	"checked": false,
+	"expanded": true,
+
+	"children": [{
+		"id": "13",
+		"text": "퇴적물",
+		"leaf": true,
+		"checked": false
+	}]
+}, {
+	"id": "14",
+	"text": "기타측정지점",
+	"checked": false,
+	"expanded": true,
+
+	"children": [{
+		"id": "15",
+		"text": "수위관측소",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "16",
+		"text": "우량관측소",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "17",
+		"text": "유량관측소",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "18",
+		"text": "댐관측소",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "19",
+		"text": "AWS기상관측소",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "20",
+		"text": "지상기상관측소",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "21",
+		"text": "보관측소",
+		"leaf": true,
+		"checked": false
+	}]
+}, {
+	"id": "22",
+	"text": "수생태계",
+	"checked": false,
+	"expanded": true,
+
+	"children": [{
+		"id": "23",
+		"text": "수생태계전국단위",
+		"leaf": true,
+		"checked": false
+	}]
+}, {
+	"id": "24",
+	"text": "환경기초시설",
+	"checked": false,
+	"expanded": true,
+
+	"children": [{
+		"id": "25",
+		"text": "축산폐수공공처리시설",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "26",
+		"text": "하수종말처리시설",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "27",
+		"text": "산업폐수종말처리시설",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "28",
+		"text": "분뇨처리시설",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "29",
+		"text": "매립장침출수처리시설",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "30",
+		"text": "마을하수도",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "31",
+		"text": "농공단지처리시설",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "32",
+		"text": "기타공동처리시설",
+		"leaf": true,
+		"checked": false
+	}]
+}, {
+	"id": "33",
+	"text": "시설물",
+	"checked": false,
+	"expanded": true,
+
+	"children": [{
+		"id": "34",
+		"text": "국가산업단지",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "35",
+		"text": "지방산업단지",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "36",
+		"text": "농공단지",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "37",
+		"text": "매립장",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "38",
+		"text": "매립지침출수",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "39",
+		"text": "취수장",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "40",
+		"text": "정수장",
+		"leaf": true,
+		"checked": false
+	}]
+}, {
+	"id": "41",
+	"text": "비점오염원",
+	"checked": false,
+	"expanded": true,
+
+	"children": [{
+		"id": "42",
+		"text": "비점조사지점",
+		"leaf": true,
+		"checked": false
+	}]
+}, {
+	"id": "43",
+	"text": "하천단면",
+	"checked": false,
+	"leaf": true
+}, {
+	"id": "44",
+	"text": "하천망도",
+	"checked": false,
+	"expanded": true,
+
+	"children": [{
+		"id": "45",
+		"text": "리치노드",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "46",
+		"text": "리치라인",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "47",
+		"text": "집수구역",
+		"leaf": true,
+		"checked": false
+	}]
+}, {
+	"id": "48",
+	"text": "수질영향권역",
+	"checked": false,
+	"expanded": true,
+
+	"children": [{
+		"id": "49",
+		"text": "대권역",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "50",
+		"text": "중권역_2013",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "51",
+		"text": "소권역",
+		"leaf": true,
+		"checked": false
+	}]
+}, {
+	"id": "52",
+	"text": "행정구역(법정동)",
+	"checked": false,
+	"expanded": true,
+
+	"children": [{
+		"id": "53",
+		"text": "법정동_시도",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "54",
+		"text": "법정동_시군구",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "55",
+		"text": "법정동_읍면동",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "56",
+		"text": "법정동_동리",
+		"leaf": true,
+		"checked": false
+	}]
+}, {
+	"id": "57",
+	"text": "하천",
+	"checked": false,
+	"expanded": true,
+
+	"children": [{
+		"id": "58",
+		"text": "국가하천",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "59",
+		"text": "지방하천",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "60",
+		"text": "녹조영상",
+		"leaf": true,
+		"checked": false
+	}]
+}, {
+	"id": "61",
+	"text": "식생도(전국)",
+	"checked": false,
+	"expanded": true,
+
+	"children": [{
+		"id": "62",
+		"text": "식생도",
+		"leaf": true,
+		"checked": false
+	}]
+}, {
+	"id": "63",
+	"text": "토지피복도(전국)",
+	"checked": false,
+	"expanded": true,
+
+	"children": [{
+		"id": "64",
+		"text": "토지피복도",
+		"leaf": true,
+		"checked": false
+	}]
+}, {
+	"id": "65",
+	"text": "용수지도",
+	"checked": false,
+	"expanded": true,
+
+	"children": [{
+		"id": "66",
+		"text": "중권역_용수",
+		"leaf": true,
+		"checked": false
+	}]
+}, {
+	"id": "67",
+	"text": "호소",
+	"checked": false,
+	"expanded": true,
+
+	"children": [{
+		"id": "68",
+		"text": "호소_",
+		"leaf": true,
+		"checked": false
+	}]
+}, {
+	"id": "69",
+	"text": "수질보호구역",
+	"checked": false,
+	"expanded": true,
+
+	"children": [{
+		"id": "70",
+		"text": "특별대책지역",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "71",
+		"text": "오수처리대책지역",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "72",
+		"text": "상수원보호구역",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "73",
+		"text": "배출시설제한지역",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "74",
+		"text": "수변구역",
+		"leaf": true,
+		"checked": false
+	}, {
+		"id": "75",
+		"text": "그린벨트",
+		"leaf": true,
+		"checked": false
+	}]
+}, {
+	"id": "76",
+	"text": "처리구역",
+	"checked": false,
+	"expanded": true,
+
+	"children": [{
+		"id": "77",
+		"text": "축산폐수공공처리구역",
+		"leaf": true,
+		"checked": false
+	}]
+}, {
+	"id": "78",
+	"text": "총량관리단위유역",
+	"checked": false,
+	"expanded": true,
+
+	"children": [{
+		"id": "79",
+		"text": "총량관리단위유역_",
+		"leaf": true,
+		"checked": false
+	}]
+}, {
+	"id": "80",
+	"text": "대권역",
+	"checked": false,
+	"leaf": true
+}, {
+	"id": "81",
+	"text": "_Catchment_simple",
+	"checked": false,
+	"leaf": true
+}, {
+	"id": "82",
+	"text": "REACH_ALL_simple",
+	"checked": false,
+	"leaf": true
+}, {
+	"id": "83",
+	"text": "DongRi_chach",
+	"checked": false,
+	"leaf": true
+}]

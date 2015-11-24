@@ -92,6 +92,92 @@ Ext.define('Sgis.Application', {
 		});
 		
 		this.browserCheck();
+		
+		//khLee test
+		Ext.setExtent = function (extent) {
+		      //extent.xmin.toFixed(2)
+		      var s = "";
+		      s = "XMin: "+ extent.xmin + " "
+		         +"YMin: " + extent.ymin + " "
+		         +"XMax: " + extent.xmax + " "
+		         +"YMax: " + extent.ymax;
+		      //me = Ext.getCmp('_mapDiv_');
+		      //console.info(s);
+		      //console.info(extent.getCenter());
+		      return;
+		      //console.info(Ext.getCmp('app_center_container').activeTab.id)
+		      //alert(s);
+		      //return;
+		      //var me = Ext.getCmp(mapDivId);
+		      var tabId = Ext.getCmp('app_center_container').activeTab.id;
+		      var me = null;
+		      var layerId = "";
+		      if(tabId == "nakdong_map"){
+		       me = Ext.getCmp('_mapDiv_1');
+		       layerId = "DynamicLayer1";
+		       // level 9 일때 Center 범위
+		          //var stdCenterXmin = 14013047.519494653;
+		          //var stdCenterXmax = 14599472.400498245;
+		          //var stdCenterYmin = 4139294.3942281883;
+		          //var stdCenterYmax = 4411410.214923285;
+		          var stdCenterXmin = 12728905.446270483;
+		          var stdCenterXmax = 15766818.698435722;
+		          var stdCenterYmin = 3409091.461517964;
+		          var stdCenterYmax = 5441704.9176768325;
+		      }
+		      if(tabId == "northhan_map"){
+		       me = Ext.getCmp('_mapDiv_2');
+		       layerId = "DynamicLayer2";
+		       // level 9 일때 Center 범위
+		          //var stdCenterXmin = 14051266.033637095;
+		          //var stdCenterXmax = 14344478.474139143;
+		          //var stdCenterYmin = 4470725.348872494;
+		          //var stdCenterYmax = 4606783.259220161;
+		       	  var stdCenterXmin = 12728905.446270483;
+		          var stdCenterXmax = 15766818.698435722;
+		          var stdCenterYmin = 3409091.461517964;
+		          var stdCenterYmax = 5441704.9176768325;
+		      }
+		      
+		      if(me.map.getLevel() < me.level){
+		       //alert("더 이상 축소 할 수 없습니다.");
+		       
+		       var activeLayer = me.map.getLayer(layerId);
+		       activeLayer.setVisibility(false);
+		       
+		       var deferred = me.map.setExtent(me.initialExtent, true);
+		       deferred.then(function(value){
+		        me.map.centerAt(me.initialExtent.getCenter());
+		        me.map.setLevel(me.level);
+		       });
+		       
+		       activeLayer.setVisibility(true);
+		       
+		       return;
+		      }
+		      
+		      if(extent.getCenter().x < stdCenterXmin ||
+		         extent.getCenter().x > stdCenterXmax ||
+		         extent.getCenter().y < stdCenterYmin ||
+		         extent.getCenter().y > stdCenterYmax){
+		      /*
+		      if(extent.getCenter().x < me.initialExtent.xmin ||
+		         extent.getCenter().x > me.initialExtent.xmax ||
+		         extent.getCenter().y < me.initialExtent.ymin ||
+		         extent.getCenter().y > me.initialExtent.ymax){
+		      */
+		       alert("영역을 벗어났습니다.");
+		       me.map.centerAt(me.preExtent.getCenter());
+		       //me.map.setLevel(me.level);
+		       //me.map.centerAt(me.initialExtent.getCenter());
+		      }
+		      else{
+		       me.preExtent.xmin = extent.xmin;
+		       me.preExtent.ymin = extent.ymin;
+		       me.preExtent.xmax = extent.xmax;
+		       me.preExtent.ymax = extent.ymax;
+		      }
+		     }
 	},
 	
 	browserCheck:function(){

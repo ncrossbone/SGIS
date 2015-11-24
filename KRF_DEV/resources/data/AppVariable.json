@@ -1,0 +1,24 @@
+[{
+	"id": "ServiceUrl",
+	"MapserviceUrl" : {
+		"url" : "http://fireftp.iptime.org:6080/arcgis/rest/services/drone/MapServer",
+		"description" : "Arc GIS Service URL"
+	},
+	"testUrl" : {
+		"url" : "http://localhost:1841",
+		"description" : "test"
+	},
+	"description" : "App에 사용되는 Service Url 모음"
+}, {
+	"id": "ServiceUrl2",
+	"ServiceUrl2" : [{
+		"MapserviceUrl" : {
+			"url" : "http://fireftp.iptime.org:6080/arcgis/rest/services/drone/MapServer",
+			"description" : "Arc GIS Service URL"
+		},
+		"testUrl" : {
+			"url" : "http://localhost:1841",
+			"description" : "test"
+		}
+	}]
+}]

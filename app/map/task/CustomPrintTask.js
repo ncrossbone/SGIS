@@ -1,4 +1,4 @@
-dojo.declare("ash.map.task.CustomPrintTask", null, {
+dojo.declare("Sgis.map.task.CustomPrintTask", null, {
 	map:null,
 	mapDivId:null,
 	printUrl:null,
